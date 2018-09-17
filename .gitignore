@@ -1,1 +1,6 @@
 .idea/
+
+foyer.enpc.org
+lastupdate.tmp
+
+routers/commentsRouter_*.go
