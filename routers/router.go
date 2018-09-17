@@ -11,11 +11,9 @@ func init() {
 	accountRepository := services.NewInMemoryAccountRepository()
 	foyerService := services.NewFoyerServiceImpl(accountRepository)
 
-	louis, _ := accountRepository.GetOne("louis.trezzini")
-
-	louis, _ = foyerService.TopUpAccount(louis, 10)
-	louis, _ = foyerService.BuyDrink(louis, "pinte-kro")
-	louis, _ = foyerService.BuyDrink(louis, "delirium")
+	foyerService.TopUpAccount("louis.trezzini", 10)
+	foyerService.BuyDrink("louis.trezzini", "pinte-kro")
+	foyerService.BuyDrink("louis.trezzini", "delirium")
 
 	ns := beego.NewNamespace("/v1",
 		beego.NSNamespace("/accounts",

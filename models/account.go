@@ -39,9 +39,9 @@ func (account *Account) saveEvent(event Event) {
 }
 
 func (account *Account) BuyDrink(drink Drink) {
-	account.trackEvent(BuyDrink{Drink: drink})
+	account.trackEvent(&BuyDrink{Drink: drink})
 }
 
 func (account *Account) TopUpAccount(amount float64) {
-	account.trackEvent(TopUp{Amount: amount})
+	account.trackEvent(&TopUp{Amount: amount})
 }

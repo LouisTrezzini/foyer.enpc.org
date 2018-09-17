@@ -14,7 +14,9 @@ func NewFoyerServiceImpl(accountRepository AccountRepository) FoyerService {
 	}
 }
 
-func (service *foyerServiceImpl) BuyDrink(account models.Account, drinkID string) (models.Account, error) {
+func (service *foyerServiceImpl) BuyDrink(userID string, drinkID string) error {
+	account, _ := service.accountRepository.GetOne(userID)
+
 	account.BuyDrink(models.Drink{
 		ID:      drinkID,
 		Price:   2,
@@ -22,15 +24,17 @@ func (service *foyerServiceImpl) BuyDrink(account models.Account, drinkID string
 		Alcohol: 5,
 	}) // FIXME
 
-	account, _ = service.accountRepository.Update(account)
+	service.accountRepository.Update(account)
 
-	return account, nil
+	return nil
 }
 
-func (service *foyerServiceImpl) TopUpAccount(account models.Account, amount float64) (models.Account, error) {
+func (service *foyerServiceImpl) TopUpAccount(userID string, amount float64) error {
+	account, _ := service.accountRepository.GetOne(userID)
+
 	account.TopUpAccount(amount)
 
 	service.accountRepository.Update(account)
 
-	return account, nil
+	return nil
 }
