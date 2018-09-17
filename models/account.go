@@ -1,0 +1,47 @@
+package models
+
+import (
+	"encoding/json"
+	"time"
+)
+
+type Account struct {
+	UserID  string         `json:"user_id"`
+	Balance float64        `json:"balance"`
+	Stats   AccountStats   `json:"stats"`
+	Events  []AccountEvent `json:"events"`
+}
+
+func NewAccount(userID string) Account {
+	return Account{
+		UserID: userID,
+		Events: make([]AccountEvent, 0),
+	}
+}
+
+func (account *Account) trackEvent(event Event) {
+	account.saveEvent(event)
+	event.Apply(account)
+}
+
+func (account *Account) saveEvent(event Event) {
+	payload, err := json.Marshal(event)
+	if err != nil {
+		panic(err)
+	}
+	accountEvent := AccountEvent{
+		AccountID: account.UserID,
+		Date:      time.Now(),
+		EventName: event.Name(),
+		Payload:   string(payload),
+	}
+	account.Events = append(account.Events, accountEvent)
+}
+
+func (account *Account) BuyDrink(drink Drink) {
+	account.trackEvent(BuyDrink{Drink: drink})
+}
+
+func (account *Account) TopUpAccount(amount float64) {
+	account.trackEvent(TopUp{Amount: amount})
+}
