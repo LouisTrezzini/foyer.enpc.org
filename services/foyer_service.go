@@ -1,6 +1,8 @@
 package services
 
+import "github.com/LouisTrezzini/foyer.enpc.org/models"
+
 type FoyerService interface {
-	BuyDrink(userID string, drinkID string) error
-	TopUpAccount(userID string, amount float64) error
+	BuyDrink(userID string, drinkID string) (models.Account, error)
+	TopUpAccount(userID string, amount float64) (models.Account, error)
 }

@@ -1,40 +1,54 @@
 package services
 
-import (
-			"github.com/LouisTrezzini/foyer.enpc.org/models"
-)
+import "github.com/LouisTrezzini/foyer.enpc.org/models"
 
 type foyerServiceImpl struct {
 	accountRepository AccountRepository
+	drinkRepository DrinkRepository
 }
 
-func NewFoyerServiceImpl(accountRepository AccountRepository) FoyerService {
+func NewFoyerServiceImpl(accountRepository AccountRepository, drinkRepository DrinkRepository) FoyerService {
 	return &foyerServiceImpl{
 		accountRepository: accountRepository,
+		drinkRepository: drinkRepository,
 	}
 }
 
-func (service *foyerServiceImpl) BuyDrink(userID string, drinkID string) error {
-	account, _ := service.accountRepository.GetOne(userID)
+func (service *foyerServiceImpl) BuyDrink(userID string, drinkID string) (models.Account, error) {
+	account, err := service.accountRepository.GetOne(userID)
+	if err != nil {
+		return account, err
+	}
 
-	account.BuyDrink(models.Drink{
-		ID:      drinkID,
-		Price:   2,
-		Volume:  1,
-		Alcohol: 5,
-	}) // FIXME
+	drink, err := service.drinkRepository.GetOne(drinkID)
+	if err != nil {
+		return account, err
+	}
 
-	service.accountRepository.Update(account)
+	if err := account.BuyDrink(drink); err != nil {
+		return account, err
+	}
 
-	return nil
+	if _, err := service.accountRepository.Update(account); err != nil {
+		return account, err
+	}
+
+	return account, nil
 }
 
-func (service *foyerServiceImpl) TopUpAccount(userID string, amount float64) error {
-	account, _ := service.accountRepository.GetOne(userID)
+func (service *foyerServiceImpl) TopUpAccount(userID string, amount float64) (models.Account, error) {
+	account, err := service.accountRepository.GetOne(userID)
+	if err != nil {
+		return account, err
+	}
 
-	account.TopUpAccount(amount)
+	if err := account.TopUpAccount(amount); err != nil {
+		return account, err
+	}
 
-	service.accountRepository.Update(account)
+	if _, err := service.accountRepository.Update(account); err != nil {
+		return account, err
+	}
 
-	return nil
+	return account, nil
 }

@@ -8,3 +8,8 @@ type Drink struct {
 	Volume   float64 `json:"volume"`
 }
 
+func NewDrink(drinkID string) Drink {
+	return Drink{
+		ID: drinkID,
+	}
+}

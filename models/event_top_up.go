@@ -1,15 +1,19 @@
 package models
 
-type TopUp struct {
+type TopUpEvent struct {
 	Amount float64 `json:"amount"`
 }
 
-func (event *TopUp) Name() string {
+func (event *TopUpEvent) Name() string {
 	return "top_up"
 }
 
-func (event *TopUp) Apply(account *Account) error {
+func (event *TopUpEvent) Apply(account *Account) error {
 	account.Balance += event.Amount
 
 	return nil
+}
+
+type TopUpCommand struct {
+	Amount float64 `json:"amount"`
 }

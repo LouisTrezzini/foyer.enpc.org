@@ -3,6 +3,8 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/LouisTrezzini/foyer.enpc.org/services"
+	"github.com/LouisTrezzini/foyer.enpc.org/models"
+	"github.com/astaxie/beego/context"
 )
 
 type AccountController struct {
@@ -12,20 +14,20 @@ type AccountController struct {
 }
 
 // @Title Get
-// @Description find account by userId
-// @Param	userId		path 	string	true		"the userId you want to get"
+// @Description find account by userID
+// @Param userID path string true "the userID you want to get"
 // @Success 200 {object} models.Account
-// @Failure 403 :userId is empty
-// @router /:userId [get]
+// @Failure 403 :userID is empty
+// @router /:userID [get]
 func (controller *AccountController) Get() {
-	objectId := controller.Ctx.Input.Param(":userId")
-	if objectId != "" {
-		ob, err := controller.AccountRepository.GetOne(objectId)
-		if err != nil {
-			controller.Data["json"] = err.Error()
-		} else {
-			controller.Data["json"] = ob
-		}
+	userID := controller.Ctx.Input.Param(":userID")
+
+	account, err := controller.AccountRepository.GetOne(userID)
+
+	if err != nil {
+		controller.Data["json"] = err.Error()
+	} else {
+		controller.Data["json"] = account
 	}
 	controller.ServeJSON()
 }
@@ -33,28 +35,38 @@ func (controller *AccountController) Get() {
 // @Title GetAll
 // @Description get all objects
 // @Success 200 {object} models.Account
-// @Failure 403 :userId is empty
 // @router / [get]
 func (controller *AccountController) GetAll() {
-	obs := controller.AccountRepository.GetAll()
-	controller.Data["json"] = obs
+	accounts := controller.AccountRepository.GetAll()
+
+	controller.Data["json"] = accounts
 	controller.ServeJSON()
 }
 
 // @Title Buy a drink
-// @Param	userId		path 	string	true		"the userId you want to get"
-// @Success 200 {object} models.Account
-// @Failure 403 :userId is empty
-// @router /:userId/buy-drink/ [post]
-func (controller *AccountController) BuyDrink() {
-	objectId := controller.Ctx.Input.Param(":userId")
-	if objectId != "" {
-		ob, err := controller.AccountRepository.GetOne(objectId)
-		if err != nil {
-			controller.Data["json"] = err.Error()
-		} else {
-			controller.Data["json"] = ob
-		}
+// @Param userID path string true "the userID you want to affect"
+// @Param command body {models.BuyDrinkCommand} true "the command"
+// @router /:userID/buy-drink/ [post]
+func (controller *AccountController) BuyDrink(userID string, command models.BuyDrinkCommand) (*models.Account, error) {
+	account, err := controller.FoyerService.BuyDrink(userID, command.DrinkID)
+
+	if err == models.NotFoundErr {
+		return nil, context.NotFound
 	}
-	controller.ServeJSON()
+
+	return &account, nil
+}
+
+// @Title Top up
+// @Param userID path string true "the userID you want to affect"
+// @Param command body {models.TopUpCommand} true "the command"
+// @router /:userID/top-up/ [post]
+func (controller *AccountController) TopUp(userID string, command models.TopUpCommand) (*models.Account, error) {
+	account, err := controller.FoyerService.TopUpAccount(userID, command.Amount)
+
+	if err == models.NotFoundErr {
+		return nil, context.NotFound
+	}
+
+	return &account, nil
 }

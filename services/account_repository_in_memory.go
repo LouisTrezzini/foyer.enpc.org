@@ -3,7 +3,7 @@ package services
 import (
 	"github.com/LouisTrezzini/foyer.enpc.org/models"
 	"sync"
-)
+	)
 
 type inMemoryAccountRepository struct {
 	mutex       sync.RWMutex
@@ -32,7 +32,7 @@ func (repo *inMemoryAccountRepository) GetOne(userID string) (models.Account, er
 
 	account, ok := repo.accountsMap[userID]
 	if !ok {
-		return models.NewAccount(userID), nil
+		return account, models.NotFoundErr
 	}
 	return account, nil
 }

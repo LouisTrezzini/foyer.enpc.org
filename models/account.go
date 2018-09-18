@@ -19,9 +19,15 @@ func NewAccount(userID string) Account {
 	}
 }
 
-func (account *Account) trackEvent(event Event) {
+func (account *Account) trackEvent(event Event) error {
+	err := event.Apply(account)
+	if err != nil {
+		return err
+	}
+
 	account.saveEvent(event)
-	event.Apply(account)
+
+	return nil
 }
 
 func (account *Account) saveEvent(event Event) {
@@ -38,10 +44,10 @@ func (account *Account) saveEvent(event Event) {
 	account.Events = append(account.Events, accountEvent)
 }
 
-func (account *Account) BuyDrink(drink Drink) {
-	account.trackEvent(&BuyDrink{Drink: drink})
+func (account *Account) BuyDrink(drink Drink) error {
+	return account.trackEvent(&BuyDrinkEvent{Drink: drink})
 }
 
-func (account *Account) TopUpAccount(amount float64) {
-	account.trackEvent(&TopUp{Amount: amount})
+func (account *Account) TopUpAccount(amount float64) error {
+	return account.trackEvent(&TopUpEvent{Amount: amount})
 }

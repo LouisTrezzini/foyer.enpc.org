@@ -9,7 +9,8 @@ import (
 
 func init() {
 	accountRepository := services.NewInMemoryAccountRepository()
-	foyerService := services.NewFoyerServiceImpl(accountRepository)
+	drinkRepository := services.NewInMemoryDrinkRepository()
+	foyerService := services.NewFoyerServiceImpl(accountRepository, drinkRepository)
 
 	foyerService.TopUpAccount("louis.trezzini", 10)
 	foyerService.BuyDrink("louis.trezzini", "pinte-kro")
