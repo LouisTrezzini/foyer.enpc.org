@@ -7,6 +7,13 @@ type FoyerServiceImpl struct {
 	drinkRepository   DrinkRepository
 }
 
+func NewFoyerServiceImpl(accountRepository AccountRepository, drinkRepository DrinkRepository) *FoyerServiceImpl {
+	return &FoyerServiceImpl{
+		accountRepository: accountRepository,
+		drinkRepository:   drinkRepository,
+	}
+}
+
 func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models.Account, error) {
 	account, err := service.accountRepository.GetOne(userID)
 	if err != nil {
