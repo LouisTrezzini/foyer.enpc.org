@@ -6,8 +6,6 @@ import (
 	)
 
 var ServicesProviderSet = wire.NewSet(
-	services.NewInMemoryAccountRepository,
-	services.NewInMemoryDrinkRepository,
 	services.FoyerServiceImpl{},
 	wire.Bind(new(services.FoyerService), new(services.FoyerServiceImpl)),
 
@@ -17,6 +15,21 @@ var ServicesProviderSet = wire.NewSet(
 var ProviderSet = wire.NewSet(
 	ServicesProviderSet,
 
-	wire.Bind(new(services.AccountRepository), new(services.InMemoryAccountRepository)),
-	wire.Bind(new(services.DrinkRepository), new(services.InMemoryDrinkRepository)),
+	NewBongoConnection,
+
+	services.AccountRepositoryBongo{},
+	services.NewDrinkRepositoryInMemory,
+
+	wire.Bind(new(services.AccountRepository), new(services.AccountRepositoryBongo)),
+	wire.Bind(new(services.DrinkRepository), new(services.DrinkRepositoryInMemory)),
+)
+
+var InMemoryProviderSet = wire.NewSet(
+	ServicesProviderSet,
+
+	services.NewAccountRepositoryInMemory,
+	services.NewDrinkRepositoryInMemory,
+
+	wire.Bind(new(services.AccountRepository), new(services.AccountRepositoryInMemory)),
+	wire.Bind(new(services.DrinkRepository), new(services.DrinkRepositoryInMemory)),
 )

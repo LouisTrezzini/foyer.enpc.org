@@ -3,16 +3,16 @@ package services
 import (
 	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
 	"sync"
-	"github.com/pkg/errors"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/errors"
 )
 
-type InMemoryAccountRepository struct {
+type AccountRepositoryInMemory struct {
 	mutex       sync.RWMutex
 	accountsMap map[string]models.Account
 }
 
-func NewInMemoryAccountRepository() *InMemoryAccountRepository {
-	repo := &InMemoryAccountRepository{
+func NewAccountRepositoryInMemory() *AccountRepositoryInMemory {
+	repo := &AccountRepositoryInMemory{
 		accountsMap: map[string]models.Account{},
 	}
 
@@ -21,24 +21,24 @@ func NewInMemoryAccountRepository() *InMemoryAccountRepository {
 	return repo
 }
 
-func (repo *InMemoryAccountRepository) init() {
+func (repo *AccountRepositoryInMemory) init() {
 	repo.accountsMap = make(map[string]models.Account)
 	repo.accountsMap["louis.trezzini"] = models.NewAccount("louis.trezzini")
 	repo.accountsMap["guillaume.desforges"] = models.NewAccount("guillaume.desforges")
 }
 
-func (repo *InMemoryAccountRepository) GetOne(userID string) (models.Account, error) {
+func (repo *AccountRepositoryInMemory) GetOne(userID string) (models.Account, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
 	account, ok := repo.accountsMap[userID]
 	if !ok {
-		return account, errors.Errorf("user %s not found", userID)
+		return account, &errors.ErrAccountNotFound{UserID: userID}
 	}
 	return account, nil
 }
 
-func (repo *InMemoryAccountRepository) GetAll() []models.Account {
+func (repo *AccountRepositoryInMemory) GetAll() ([]models.Account, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -48,10 +48,10 @@ func (repo *InMemoryAccountRepository) GetAll() []models.Account {
 		accounts = append(accounts, account)
 	}
 
-	return accounts
+	return accounts, nil
 }
 
-func (repo *InMemoryAccountRepository) Update(account models.Account) (models.Account, error) {
+func (repo *AccountRepositoryInMemory) Update(account models.Account) (models.Account, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 

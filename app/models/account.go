@@ -6,10 +6,11 @@ import (
 )
 
 type Account struct {
-	UserID  string         `json:"user_id"`
-	Balance float64        `json:"balance"`
-	Stats   AccountStats   `json:"stats"`
-	Events  []AccountEvent `json:"events"`
+	BaseModel `bson:",inline"`
+	UserID    string         `json:"user_id"`
+	Balance   float64        `json:"balance"`
+	Stats     AccountStats   `json:"stats"`
+	Events    []AccountEvent `json:"events"`
 }
 
 func NewAccount(userID string) Account {

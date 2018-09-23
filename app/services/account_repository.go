@@ -6,7 +6,7 @@ import (
 
 type AccountRepository interface {
 	GetOne(userID string) (models.Account, error)
-	GetAll() []models.Account
+	GetAll() ([]models.Account, error)
 
 	Update(account models.Account) (models.Account, error)
 }

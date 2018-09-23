@@ -19,7 +19,7 @@ func GetContainer() *Container {
 
 func InitContainer() error {
 	if container != nil {
-		return errors.New("Container is already initialized")
+		return errors.New("container is already initialized")
 	}
 
 	newContainer, err := initializeContainer()

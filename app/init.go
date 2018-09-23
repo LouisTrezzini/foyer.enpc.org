@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/revel/revel"
 	"github.com/LouisTrezzini/foyer.enpc.org/app/dependency_injection"
-)
+	)
 
 var (
 	// AppVersion revel app version (ldflags)
@@ -21,14 +21,11 @@ func init() {
 		revel.FilterConfiguringFilter, // A hook for adding or removing per-Action filters.
 		revel.ParamsFilter,            // Parse parameters into Controller.Params.
 		revel.SessionFilter,           // Restore and write the session cookie.
-		revel.FlashFilter,             // Restore and write the flash cookie.
 		revel.ValidationFilter,        // Restore kept validation errors and save new ones from cookie.
-		revel.I18nFilter,              // Resolve the requested language
 		HeaderFilter,                  // Add some security based headers
 		revel.InterceptorFilter,       // Run interceptors around the action.
 		revel.CompressFilter,          // Compress the result.
 		revel.ActionInvoker,           // Invoke the action.
-		revel.BeforeAfterFilter,
 	}
 
 	// Register startup functions with OnAppStart

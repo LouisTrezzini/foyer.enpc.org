@@ -12,15 +12,21 @@ import (
 // Injectors from initialize.go:
 
 func initializeContainer() (Container, error) {
-	inMemoryAccountRepository := services.NewInMemoryAccountRepository()
-	inMemoryDrinkRepository := services.NewInMemoryDrinkRepository()
+	connection, err := NewBongoConnection()
+	if err != nil {
+		return Container{}, err
+	}
+	accountRepositoryBongo := &services.AccountRepositoryBongo{
+		Connection: connection,
+	}
+	drinkRepositoryInMemory := services.NewDrinkRepositoryInMemory()
 	foyerServiceImpl := &services.FoyerServiceImpl{
-		AccountRepository: inMemoryAccountRepository,
-		DrinkRepository:   inMemoryDrinkRepository,
+		AccountRepository: accountRepositoryBongo,
+		DrinkRepository:   drinkRepositoryInMemory,
 	}
 	dependency_injectionContainer := Container{
-		AccountRepository: inMemoryAccountRepository,
-		DrinkRepository:   inMemoryDrinkRepository,
+		AccountRepository: accountRepositoryBongo,
+		DrinkRepository:   drinkRepositoryInMemory,
 		FoyerService:      foyerServiceImpl,
 	}
 	return dependency_injectionContainer, nil

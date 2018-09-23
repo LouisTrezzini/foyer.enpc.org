@@ -6,13 +6,13 @@ import (
 	"github.com/pkg/errors"
 )
 
-type InMemoryDrinkRepository struct {
+type DrinkRepositoryInMemory struct {
 	mutex     sync.RWMutex
 	drinksMap map[string]models.Drink
 }
 
-func NewInMemoryDrinkRepository() *InMemoryDrinkRepository {
-	repo := &InMemoryDrinkRepository{
+func NewDrinkRepositoryInMemory() *DrinkRepositoryInMemory {
+	repo := &DrinkRepositoryInMemory{
 		drinksMap: map[string]models.Drink{},
 	}
 
@@ -21,7 +21,7 @@ func NewInMemoryDrinkRepository() *InMemoryDrinkRepository {
 	return repo
 }
 
-func (repo *InMemoryDrinkRepository) init() {
+func (repo *DrinkRepositoryInMemory) init() {
 	repo.drinksMap = make(map[string]models.Drink)
 
 	{
@@ -39,7 +39,7 @@ func (repo *InMemoryDrinkRepository) init() {
 	}
 }
 
-func (repo *InMemoryDrinkRepository) GetOne(drinkID string) (models.Drink, error) {
+func (repo *DrinkRepositoryInMemory) GetOne(drinkID string) (models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -50,7 +50,7 @@ func (repo *InMemoryDrinkRepository) GetOne(drinkID string) (models.Drink, error
 	return drink, nil
 }
 
-func (repo *InMemoryDrinkRepository) GetAll() []models.Drink {
+func (repo *DrinkRepositoryInMemory) GetAll() ([]models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -60,28 +60,28 @@ func (repo *InMemoryDrinkRepository) GetAll() []models.Drink {
 		drinks = append(drinks, drink)
 	}
 
-	return drinks
+	return drinks, nil
 }
 
-func (repo *InMemoryDrinkRepository) Create(drink models.Drink) (models.Drink, error) {
+func (repo *DrinkRepositoryInMemory) Create(drink models.Drink) (models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
-	repo.drinksMap[drink.ID] = drink
+	repo.drinksMap[drink.Slug] = drink
 
-	return repo.drinksMap[drink.ID], nil
+	return repo.drinksMap[drink.Slug], nil
 }
 
-func (repo *InMemoryDrinkRepository) Update(drink models.Drink) (models.Drink, error) {
+func (repo *DrinkRepositoryInMemory) Update(drink models.Drink) (models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
-	repo.drinksMap[drink.ID] = drink
+	repo.drinksMap[drink.Slug] = drink
 
-	return repo.drinksMap[drink.ID], nil
+	return repo.drinksMap[drink.Slug], nil
 }
 
-func (repo *InMemoryDrinkRepository) Delete(drinkID string) error {
+func (repo *DrinkRepositoryInMemory) Delete(drinkID string) error {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 

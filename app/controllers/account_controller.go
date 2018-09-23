@@ -20,7 +20,10 @@ func (controller *AccountController) Get(userID string) revel.Result {
 }
 
 func (controller *AccountController) GetAll() revel.Result {
-	accounts := DI.GetContainer().AccountRepository.GetAll()
+	accounts, err := DI.GetContainer().AccountRepository.GetAll()
+	if err != nil {
+		return controller.RenderError(err)
+	}
 
 	return controller.RenderJSON(accounts)
 }

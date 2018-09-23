@@ -6,7 +6,7 @@ import (
 
 type DrinkRepository interface {
 	GetOne(drinkID string) (models.Drink, error)
-	GetAll() []models.Drink
+	GetAll() ([]models.Drink, error)
 
 	Create(drink models.Drink) (models.Drink, error)
 	Update(drink models.Drink) (models.Drink, error)
