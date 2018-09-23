@@ -3,17 +3,17 @@ package services
 import "github.com/LouisTrezzini/foyer.enpc.org/app/models"
 
 type FoyerServiceImpl struct {
-	accountRepository AccountRepository
-	drinkRepository   DrinkRepository
+	AccountRepository AccountRepository
+	DrinkRepository   DrinkRepository
 }
 
 func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models.Account, error) {
-	account, err := service.accountRepository.GetOne(userID)
+	account, err := service.AccountRepository.GetOne(userID)
 	if err != nil {
 		return account, err
 	}
 
-	drink, err := service.drinkRepository.GetOne(drinkID)
+	drink, err := service.DrinkRepository.GetOne(drinkID)
 	if err != nil {
 		return account, err
 	}
@@ -22,7 +22,7 @@ func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models
 		return account, err
 	}
 
-	if _, err := service.accountRepository.Update(account); err != nil {
+	if _, err := service.AccountRepository.Update(account); err != nil {
 		return account, err
 	}
 
@@ -30,7 +30,7 @@ func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models
 }
 
 func (service *FoyerServiceImpl) TopUpAccount(userID string, amount float64) (models.Account, error) {
-	account, err := service.accountRepository.GetOne(userID)
+	account, err := service.AccountRepository.GetOne(userID)
 	if err != nil {
 		return account, err
 	}
@@ -39,7 +39,7 @@ func (service *FoyerServiceImpl) TopUpAccount(userID string, amount float64) (mo
 		return account, err
 	}
 
-	if _, err := service.accountRepository.Update(account); err != nil {
+	if _, err := service.AccountRepository.Update(account); err != nil {
 		return account, err
 	}
 

@@ -6,19 +6,22 @@
 package dependency_injection
 
 import (
-	"github.com/LouisTrezzini/foyer.enpc.org/app/controllers"
 	"github.com/LouisTrezzini/foyer.enpc.org/app/services"
 )
 
 // Injectors from initialize.go:
 
-func initializeAccountController() (controllers.AccountController, error) {
+func initializeContainer() (Container, error) {
 	inMemoryAccountRepository := services.NewInMemoryAccountRepository()
 	inMemoryDrinkRepository := services.NewInMemoryDrinkRepository()
 	foyerServiceImpl := &services.FoyerServiceImpl{
-		accountRepository: inMemoryAccountRepository,
-		drinkRepository:   inMemoryDrinkRepository,
+		AccountRepository: inMemoryAccountRepository,
+		DrinkRepository:   inMemoryDrinkRepository,
 	}
-	accountController := controllers.NewAccountController(inMemoryAccountRepository, foyerServiceImpl)
-	return accountController, nil
+	dependency_injectionContainer := Container{
+		AccountRepository: inMemoryAccountRepository,
+		DrinkRepository:   inMemoryDrinkRepository,
+		FoyerService:      foyerServiceImpl,
+	}
+	return dependency_injectionContainer, nil
 }

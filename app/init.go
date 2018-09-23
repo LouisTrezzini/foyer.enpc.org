@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/revel/revel"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/dependency_injection"
 )
 
 var (
@@ -59,5 +60,11 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 //}
 
 func InitDependencyInjection() {
+	if err := dependency_injection.InitContainer(); err != nil {
+		panic(err)
+	}
 
+	dependency_injection.GetContainer().FoyerService.TopUpAccount("louis.trezzini", 10)
+	dependency_injection.GetContainer().FoyerService.BuyDrink("louis.trezzini", "pinte-kro")
+	dependency_injection.GetContainer().FoyerService.BuyDrink("louis.trezzini", "delirium")
 }

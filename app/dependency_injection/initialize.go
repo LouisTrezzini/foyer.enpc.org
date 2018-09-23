@@ -4,10 +4,9 @@
 package dependency_injection
 
 import (
-		"github.com/google/go-cloud/wire"
-		"github.com/LouisTrezzini/foyer.enpc.org/app/controllers"
+	"github.com/google/go-cloud/wire"
 )
 
-func initializeAccountController() (controllers.AccountController, error) {
+func initializeContainer() (Container, error) {
 	panic(wire.Build(ProviderSet))
 }
