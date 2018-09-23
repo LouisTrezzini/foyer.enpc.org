@@ -1,6 +1,3 @@
-.idea/
-
-foyer.enpc.org
-lastupdate.tmp
-
-routers/commentsRouter_*.go
+test-results/
+tmp/
+routes/

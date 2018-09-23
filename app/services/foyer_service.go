@@ -1,6 +1,6 @@
 package services
 
-import "github.com/LouisTrezzini/foyer.enpc.org/models"
+import "github.com/LouisTrezzini/foyer.enpc.org/app/models"
 
 type FoyerService interface {
 	BuyDrink(userID string, drinkID string) (models.Account, error)

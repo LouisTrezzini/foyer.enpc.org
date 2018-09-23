@@ -1,25 +1,43 @@
-# profilesvc
+# Welcome to Revel
 
-This example demonstrates how to use Go kit to implement a REST-y HTTP service.
-It leverages the excellent [gorilla mux package](https://github.com/gorilla/mux) for routing.
+A high-productivity web framework for the [Go language](http://www.golang.org/).
 
-Run the example with the optional port address for the service: 
 
-```bash
-$ go run ./cmd/profilesvc/main.go -http.addr :8080
-ts=2018-05-01T16:13:12.849086255Z caller=main.go:47 transport=HTTP addr=:8080
-```
+### Start the web server:
 
-Create a Profile:
+   revel run myapp
 
-```bash
-$ curl -d '{"id":"1234","Name":"Go Kit"}' -H "Content-Type: application/json" -X POST http://localhost:8080/profiles/
-{}
-```
+### Go to http://localhost:9000/ and you'll see:
 
-Get the profile you just created
+    "It works"
 
-```bash
-$ curl localhost:8080/profiles/1234
-{"profile":{"id":"1234","name":"Go Kit"}}
-```
+## Code Layout
+
+The directory structure of a generated Revel application:
+
+    conf/             Configuration directory
+        app.conf      Main app configuration file
+        routes        Routes definition file
+
+    app/              App sources
+        init.go       Interceptor registration
+        controllers/  App controllers go here
+        views/        Templates directory
+
+    messages/         Message files
+
+    public/           Public static assets
+        css/          CSS files
+        js/           Javascript files
+        images/       Image files
+
+    tests/            Test suites
+
+
+## Help
+
+* The [Getting Started with Revel](http://revel.github.io/tutorial/gettingstarted.html).
+* The [Revel guides](http://revel.github.io/manual/index.html).
+* The [Revel sample apps](http://revel.github.io/examples/index.html).
+* The [API documentation](https://godoc.org/github.com/revel/revel).
+

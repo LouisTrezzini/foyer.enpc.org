@@ -1,17 +1,18 @@
 package services
 
 import (
-	"github.com/LouisTrezzini/foyer.enpc.org/models"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
 	"sync"
-	)
+	"github.com/pkg/errors"
+)
 
-type inMemoryAccountRepository struct {
+type InMemoryAccountRepository struct {
 	mutex       sync.RWMutex
 	accountsMap map[string]models.Account
 }
 
-func NewInMemoryAccountRepository() AccountRepository {
-	repo := &inMemoryAccountRepository{
+func NewInMemoryAccountRepository() *InMemoryAccountRepository {
+	repo := &InMemoryAccountRepository{
 		accountsMap: map[string]models.Account{},
 	}
 
@@ -20,24 +21,24 @@ func NewInMemoryAccountRepository() AccountRepository {
 	return repo
 }
 
-func (repo *inMemoryAccountRepository) init() {
+func (repo *InMemoryAccountRepository) init() {
 	repo.accountsMap = make(map[string]models.Account)
 	repo.accountsMap["louis.trezzini"] = models.NewAccount("louis.trezzini")
 	repo.accountsMap["guillaume.desforges"] = models.NewAccount("guillaume.desforges")
 }
 
-func (repo *inMemoryAccountRepository) GetOne(userID string) (models.Account, error) {
+func (repo *InMemoryAccountRepository) GetOne(userID string) (models.Account, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
 	account, ok := repo.accountsMap[userID]
 	if !ok {
-		return account, models.NotFoundErr
+		return account, errors.Errorf("user %s not found", userID)
 	}
 	return account, nil
 }
 
-func (repo *inMemoryAccountRepository) GetAll() []models.Account {
+func (repo *InMemoryAccountRepository) GetAll() []models.Account {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -50,7 +51,7 @@ func (repo *inMemoryAccountRepository) GetAll() []models.Account {
 	return accounts
 }
 
-func (repo *inMemoryAccountRepository) Update(account models.Account) (models.Account, error) {
+func (repo *InMemoryAccountRepository) Update(account models.Account) (models.Account, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 

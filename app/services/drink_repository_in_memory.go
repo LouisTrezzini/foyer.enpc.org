@@ -1,17 +1,18 @@
 package services
 
 import (
-	"github.com/LouisTrezzini/foyer.enpc.org/models"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
 	"sync"
-	)
+	"github.com/pkg/errors"
+)
 
-type inMemoryDrinkRepository struct {
+type InMemoryDrinkRepository struct {
 	mutex     sync.RWMutex
 	drinksMap map[string]models.Drink
 }
 
-func NewInMemoryDrinkRepository() DrinkRepository {
-	repo := &inMemoryDrinkRepository{
+func NewInMemoryDrinkRepository() *InMemoryDrinkRepository {
+	repo := &InMemoryDrinkRepository{
 		drinksMap: map[string]models.Drink{},
 	}
 
@@ -20,7 +21,7 @@ func NewInMemoryDrinkRepository() DrinkRepository {
 	return repo
 }
 
-func (repo *inMemoryDrinkRepository) init() {
+func (repo *InMemoryDrinkRepository) init() {
 	repo.drinksMap = make(map[string]models.Drink)
 
 	{
@@ -38,18 +39,18 @@ func (repo *inMemoryDrinkRepository) init() {
 	}
 }
 
-func (repo *inMemoryDrinkRepository) GetOne(drinkID string) (models.Drink, error) {
+func (repo *InMemoryDrinkRepository) GetOne(drinkID string) (models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
 	drink, ok := repo.drinksMap[drinkID]
 	if !ok {
-		return drink, models.NotFoundErr
+		return drink, errors.Errorf("drink %s not found", drinkID)
 	}
 	return drink, nil
 }
 
-func (repo *inMemoryDrinkRepository) GetAll() []models.Drink {
+func (repo *InMemoryDrinkRepository) GetAll() []models.Drink {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -62,7 +63,7 @@ func (repo *inMemoryDrinkRepository) GetAll() []models.Drink {
 	return drinks
 }
 
-func (repo *inMemoryDrinkRepository) Create(drink models.Drink) (models.Drink, error) {
+func (repo *InMemoryDrinkRepository) Create(drink models.Drink) (models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -71,7 +72,7 @@ func (repo *inMemoryDrinkRepository) Create(drink models.Drink) (models.Drink, e
 	return repo.drinksMap[drink.ID], nil
 }
 
-func (repo *inMemoryDrinkRepository) Update(drink models.Drink) (models.Drink, error) {
+func (repo *InMemoryDrinkRepository) Update(drink models.Drink) (models.Drink, error) {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 
@@ -80,7 +81,7 @@ func (repo *inMemoryDrinkRepository) Update(drink models.Drink) (models.Drink, e
 	return repo.drinksMap[drink.ID], nil
 }
 
-func (repo *inMemoryDrinkRepository) Delete(drinkID string) error {
+func (repo *InMemoryDrinkRepository) Delete(drinkID string) error {
 	repo.mutex.RLock()
 	defer repo.mutex.RUnlock()
 

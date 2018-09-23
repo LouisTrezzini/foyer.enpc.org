@@ -1,20 +1,13 @@
 package services
 
-import "github.com/LouisTrezzini/foyer.enpc.org/models"
+import "github.com/LouisTrezzini/foyer.enpc.org/app/models"
 
-type foyerServiceImpl struct {
+type FoyerServiceImpl struct {
 	accountRepository AccountRepository
-	drinkRepository DrinkRepository
+	drinkRepository   DrinkRepository
 }
 
-func NewFoyerServiceImpl(accountRepository AccountRepository, drinkRepository DrinkRepository) FoyerService {
-	return &foyerServiceImpl{
-		accountRepository: accountRepository,
-		drinkRepository: drinkRepository,
-	}
-}
-
-func (service *foyerServiceImpl) BuyDrink(userID string, drinkID string) (models.Account, error) {
+func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models.Account, error) {
 	account, err := service.accountRepository.GetOne(userID)
 	if err != nil {
 		return account, err
@@ -36,7 +29,7 @@ func (service *foyerServiceImpl) BuyDrink(userID string, drinkID string) (models
 	return account, nil
 }
 
-func (service *foyerServiceImpl) TopUpAccount(userID string, amount float64) (models.Account, error) {
+func (service *FoyerServiceImpl) TopUpAccount(userID string, amount float64) (models.Account, error) {
 	account, err := service.accountRepository.GetOne(userID)
 	if err != nil {
 		return account, err

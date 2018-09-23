@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/LouisTrezzini/foyer.enpc.org/models"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
 )
 
 type DrinkRepository interface {
