@@ -2,10 +2,6 @@ package app
 
 import (
 	"github.com/revel/revel"
-	"go.uber.org/dig"
-	"github.com/LouisTrezzini/foyer.enpc.org/app/services"
-	"github.com/LouisTrezzini/foyer.enpc.org/app/controllers"
-	"fmt"
 )
 
 var (
@@ -63,36 +59,5 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 //}
 
 func InitDependencyInjection() {
-	container := dig.New()
 
-	if err := container.Provide(func() (services.AccountRepository, error) {
-		return services.NewInMemoryAccountRepository(), nil
-	}); err != nil {
-		panic(err)
-	}
-
-	if err := container.Provide(func() (services.DrinkRepository, error) {
-		return services.NewInMemoryDrinkRepository(), nil
-	}); err != nil {
-		panic(err)
-	}
-
-	if err := container.Provide(func(accountRepository services.AccountRepository, drinkRepository services.DrinkRepository) (services.FoyerService, error) {
-		return services.NewFoyerServiceImpl(accountRepository, drinkRepository), nil
-	}); err != nil {
-		panic(err)
-	}
-
-	if err := container.Provide(func(accountRepository services.AccountRepository, foyerService services.FoyerService) (controllers.AccountController, error) {
-		return controllers.NewAccountController(accountRepository, foyerService), nil
-	}); err != nil {
-		panic(err)
-	}
-
-	if err := container.Invoke(func(accountController controllers.AccountController) {
-		fmt.Println("toto")
-		fmt.Println(accountController)
-	}); err != nil {
-		panic(err)
-	}
 }
