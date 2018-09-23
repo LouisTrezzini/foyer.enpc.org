@@ -36,10 +36,10 @@ func (account *Account) saveEvent(event Event) {
 		panic(err)
 	}
 	accountEvent := AccountEvent{
-		AccountID: account.UserID,
-		Date:      time.Now(),
-		EventName: event.Name(),
-		Payload:   string(payload),
+		AccountID:  account.UserID,
+		RecordedAt: time.Now(),
+		EventName:  event.Name(),
+		Payload:    string(payload),
 	}
 	account.Events = append(account.Events, accountEvent)
 }
