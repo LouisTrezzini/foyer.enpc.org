@@ -1,9 +1,9 @@
 package services
 
 import (
+	"github.com/LouisTrezzini/foyer.enpc.org/app/errors"
 	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
 	"sync"
-	"github.com/LouisTrezzini/foyer.enpc.org/app/errors"
 )
 
 type AccountRepositoryInMemory struct {
@@ -36,6 +36,15 @@ func (repo *AccountRepositoryInMemory) GetOne(userID string) (models.Account, er
 		return account, &errors.ErrAccountNotFound{UserID: userID}
 	}
 	return account, nil
+}
+
+func (repo *AccountRepositoryInMemory) GetOrCreate(userID string) (models.Account, error) {
+	account, err := repo.GetOne(userID)
+	if _, ok := err.(*errors.ErrAccountNotFound); ok {
+		return repo.Update(models.NewAccount(userID))
+	}
+
+	return account, err
 }
 
 func (repo *AccountRepositoryInMemory) GetAll() ([]models.Account, error) {

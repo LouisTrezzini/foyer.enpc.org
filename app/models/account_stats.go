@@ -5,4 +5,3 @@ type AccountStats struct {
 	TotalVolume float64 `json:"total_volume"`
 	TotalSpent  float64 `json:"total_spent"`
 }
-

@@ -1,9 +1,9 @@
 package dependency_injection
 
 import (
-	"github.com/google/go-cloud/wire"
 	"github.com/LouisTrezzini/foyer.enpc.org/app/services"
-	)
+	"github.com/google/go-cloud/wire"
+)
 
 var ServicesProviderSet = wire.NewSet(
 	services.FoyerServiceImpl{},

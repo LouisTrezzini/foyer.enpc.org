@@ -8,7 +8,7 @@ type FoyerServiceImpl struct {
 }
 
 func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models.Account, error) {
-	account, err := service.AccountRepository.GetOne(userID)
+	account, err := service.AccountRepository.GetOrCreate(userID)
 	if err != nil {
 		return account, err
 	}
@@ -22,7 +22,7 @@ func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models
 		return account, err
 	}
 
-	if _, err := service.AccountRepository.Update(account); err != nil {
+	if account, err := service.AccountRepository.Update(account); err != nil {
 		return account, err
 	}
 
@@ -30,7 +30,7 @@ func (service *FoyerServiceImpl) BuyDrink(userID string, drinkID string) (models
 }
 
 func (service *FoyerServiceImpl) TopUpAccount(userID string, amount float64) (models.Account, error) {
-	account, err := service.AccountRepository.GetOne(userID)
+	account, err := service.AccountRepository.GetOrCreate(userID)
 	if err != nil {
 		return account, err
 	}
@@ -39,7 +39,7 @@ func (service *FoyerServiceImpl) TopUpAccount(userID string, amount float64) (mo
 		return account, err
 	}
 
-	if _, err := service.AccountRepository.Update(account); err != nil {
+	if account, err := service.AccountRepository.Update(account); err != nil {
 		return account, err
 	}
 

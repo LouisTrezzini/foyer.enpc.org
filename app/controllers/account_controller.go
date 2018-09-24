@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/revel/revel"
-	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
 	DI "github.com/LouisTrezzini/foyer.enpc.org/app/dependency_injection"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
+	"github.com/revel/revel"
 )
 
 type AccountController struct {

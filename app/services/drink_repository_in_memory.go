@@ -2,8 +2,8 @@ package services
 
 import (
 	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
-	"sync"
 	"github.com/pkg/errors"
+	"sync"
 )
 
 type DrinkRepositoryInMemory struct {

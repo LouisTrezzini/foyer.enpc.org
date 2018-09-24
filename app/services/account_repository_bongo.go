@@ -1,10 +1,10 @@
 package services
 
 import (
-	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
-	"github.com/go-bongo/bongo"
-	"github.com/globalsign/mgo/bson"
 	"github.com/LouisTrezzini/foyer.enpc.org/app/errors"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/models"
+	"github.com/globalsign/mgo/bson"
+	"github.com/go-bongo/bongo"
 )
 
 type AccountRepositoryBongo struct {
@@ -14,9 +14,18 @@ type AccountRepositoryBongo struct {
 func (repo *AccountRepositoryBongo) GetOne(userID string) (models.Account, error) {
 	account := models.Account{}
 
-	err := repo.Connection.Collection("accounts").FindOne(bson.M{"UserID": userID}, &account)
+	err := repo.Connection.Collection("accounts").FindOne(bson.M{"userid": userID}, &account)
 	if err != nil {
-		return models.Account{}, &errors.ErrAccountNotFound{UserID: userID}
+		return account, &errors.ErrAccountNotFound{UserID: userID}
+	}
+
+	return account, err
+}
+
+func (repo *AccountRepositoryBongo) GetOrCreate(userID string) (models.Account, error) {
+	account, err := repo.GetOne(userID)
+	if _, ok := err.(*errors.ErrAccountNotFound); ok {
+		return repo.Update(models.NewAccount(userID))
 	}
 
 	return account, err

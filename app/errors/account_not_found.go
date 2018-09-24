@@ -7,7 +7,7 @@ type ErrAccountNotFound struct {
 }
 
 func (err *ErrAccountNotFound) Error() string {
-	return fmt.Sprintf( "account %s not found", err.UserID)
+	return fmt.Sprintf("account %s not found", err.UserID)
 }
 
 func (err *ErrAccountNotFound) HTTPCode() int {

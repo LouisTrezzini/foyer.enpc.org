@@ -1,8 +1,8 @@
 package dependency_injection
 
 import (
-	"github.com/LouisTrezzini/foyer.enpc.org/app/services"
 	"errors"
+	"github.com/LouisTrezzini/foyer.enpc.org/app/services"
 )
 
 type Container struct {
