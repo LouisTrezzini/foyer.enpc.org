@@ -35,8 +35,13 @@ function AppLayout(props) {
             <Image size="mini" src={logo} style={{ marginRight: '1.5em' }} />
             Foyer
           </Menu.Item>
+
           <Menu.Item as={Link} to="/billing">
             <Icon name="shop" /> Encaissement
+          </Menu.Item>
+
+          <Menu.Item as={Link} to="/top-up">
+            <Icon name="credit card outline" /> Rechargement
           </Menu.Item>
 
           <Dropdown item simple text="Gestion">
