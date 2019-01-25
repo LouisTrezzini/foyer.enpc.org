@@ -10,16 +10,11 @@ import { connect } from 'react-redux';
 {{#if wantHeaders}}
 import { Helmet } from 'react-helmet';
 {{/if}}
-{{#if wantMessages}}
-import { FormattedMessage } from 'react-intl';
-{{/if}}
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
 import makeSelect{{properCase name}} from './selectors';
 {{/if}}
-{{#if wantMessages}}
-import messages from './messages';
-{{/if}}
+
 
 /* eslint-disable react/prefer-stateless-function */
 export class {{ properCase name }} extends React.{{{ component }}} {
@@ -35,9 +30,7 @@ export class {{ properCase name }} extends React.{{{ component }}} {
           />
         </Helmet>
       {{/if}}
-      {{#if wantMessages}}
-        <FormattedMessage {...messages.header} />
-      {{/if}}
+        This is the {{ properCase name }} component!
       </div>
     );
   }
