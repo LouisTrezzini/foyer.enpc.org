@@ -4,31 +4,26 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {
-  Button,
-  Container,
-  Dropdown,
-  Icon,
-  Image,
-  Menu,
-} from 'semantic-ui-react';
+import { Button, Container, Dropdown, Icon, Image, Menu } from 'semantic-ui-react';
 import logo from 'images/foyer.jpg';
 import { Link } from 'react-router-dom';
 import makeSelectAppLayout from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
+
 function AppLayout(props) {
   return (
-    <div>
+    <Fragment>
       <Menu fixed="top">
         <Container>
           <Menu.Item as={Link} header to="/">
@@ -84,10 +79,10 @@ function AppLayout(props) {
         </Container>
       </Menu>
 
-      <Container style={{ paddingTop: '6em' }}>
+      <Container style={{ height: '100%', paddingTop: '6em' }}>
         {React.Children.only(props.children)}
       </Container>
-    </div>
+    </Fragment>
   );
 }
 

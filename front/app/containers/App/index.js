@@ -11,35 +11,45 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import TopUpPage from 'containers/TopUpPage/Loadable';
 import TransactionsPage from 'containers/TransactionsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import { Helmet } from 'react-helmet';
 import GlobalStyle from '../../global-styles';
 import AppLayout from '../AppLayout';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  height: 100%;
+`;
 
 export default function App() {
   return (
-    <div>
+    <Wrapper>
       <Helmet
         titleTemplate="%s - Foyer des Ponts"
         defaultTitle="Foyer des Ponts"
       >
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
+
       <Switch>
         <Route path="/">
           <AppLayout>
             <Switch>
               <Route exact path="/" component={HomePage} />
+              <Route exact path="/top-up" component={TopUpPage} />
               <Route exact path="/transactions" component={TransactionsPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </AppLayout>
         </Route>
+
         <Route component={NotFoundPage} />
       </Switch>
+
       <GlobalStyle />
-    </div>
+    </Wrapper>
   );
 }
