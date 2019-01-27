@@ -203,9 +203,9 @@ export class StatisticsPage extends React.Component {
           <title>Statistiques</title>
         </Helmet>
 
-        <Header>Statistiques</Header>
+        <Header as="h2">Statistiques</Header>
 
-        <Header as="h4">Équilibres par promo</Header>
+        <Header as="h4" textAlign="center">Équilibres par promo</Header>
 
         <div style={{ height: 500, width: '100%' }}>
           <ResponsiveBar

@@ -30,7 +30,7 @@ export class DrinksPage extends React.Component {
 
         <Grid>
           <Grid.Column floated="left" width={4}>
-            <Header>Boissons</Header>
+            <Header as="h2">Boissons</Header>
           </Grid.Column>
           <Grid.Column floated="right" width={4}>
             <Button primary fluid>

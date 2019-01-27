@@ -28,7 +28,7 @@ export class TransactionsPage extends React.Component {
           <title>Transactions</title>
         </Helmet>
 
-        <Header>Historique des transactions</Header>
+        <Header as="h2">Historique des transactions</Header>
 
         <TransactionsTable transactions={transactions} />
       </div>

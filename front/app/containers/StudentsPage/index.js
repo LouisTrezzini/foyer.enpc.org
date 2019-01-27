@@ -32,7 +32,7 @@ export class StudentsPage extends React.Component {
           <title>Profil étudiant</title>
         </Helmet>
 
-        <Header>Consulter le profil d'un étudiant</Header>
+        <Header as="h2">Consulter le profil d'un étudiant</Header>
 
         <UserSearchDropdown fluid placeholder="Étudiant" />
 
