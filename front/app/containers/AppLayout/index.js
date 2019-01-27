@@ -13,18 +13,24 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { Button, Container, Dropdown, Icon, Image, Menu } from 'semantic-ui-react';
+import {
+  Button,
+  Container,
+  Dropdown,
+  Icon,
+  Image,
+  Menu,
+} from 'semantic-ui-react';
 import logo from 'images/foyer.jpg';
 import { Link } from 'react-router-dom';
 import makeSelectAppLayout from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-
 function AppLayout(props) {
   return (
     <Fragment>
-      <Menu fixed="top">
+      <Menu fixed="top" stackable>
         <Container>
           <Menu.Item as={Link} header to="/">
             <Image size="mini" src={logo} style={{ marginRight: '1.5em' }} />
@@ -41,7 +47,7 @@ function AppLayout(props) {
 
           <Dropdown item simple text="Gestion">
             <Dropdown.Menu>
-              <Dropdown.Item as={Link} to="/beers">
+              <Dropdown.Item as={Link} to="/drinks">
                 <Icon name="beer" />
                 Boissons
               </Dropdown.Item>
@@ -54,7 +60,7 @@ function AppLayout(props) {
                 <Icon name="money bill alternate outline" />
                 Dettes
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/users">
+              <Dropdown.Item as={Link} to="/students">
                 <Icon name="users" />
                 Étudiants
               </Dropdown.Item>
@@ -71,9 +77,11 @@ function AppLayout(props) {
           </Dropdown>
 
           <Menu.Menu position="right">
-            <Menu.Item as={Button}>
-              <Icon name="log out" />
-              Se déconnecter
+            <Menu.Item>
+              <Button>
+                <Icon name="log out" />
+                Se déconnecter
+              </Button>
             </Menu.Item>
           </Menu.Menu>
         </Container>

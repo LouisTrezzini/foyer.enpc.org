@@ -11,6 +11,10 @@ const selectTransactionsPageDomain = state =>
 /**
  * Other specific selectors
  */
+const makeSelectTransactions = () =>
+  createSelector(selectTransactionsPageDomain, substate =>
+    substate.get('transactions').toJS(),
+  );
 
 /**
  * Default selector used by TransactionsPage
@@ -20,4 +24,4 @@ const makeSelectTransactionsPage = () =>
   createSelector(selectTransactionsPageDomain, substate => substate.toJS());
 
 export default makeSelectTransactionsPage;
-export { selectTransactionsPageDomain };
+export { selectTransactionsPageDomain, makeSelectTransactions };

@@ -12,13 +12,15 @@ import { Route, Switch } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import TopUpPage from 'containers/TopUpPage/Loadable';
+import DrinksPage from 'containers/DrinksPage/Loadable';
+import StudentPage from 'containers/StudentsPage/Loadable';
 import TransactionsPage from 'containers/TransactionsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
 import GlobalStyle from '../../global-styles';
 import AppLayout from '../AppLayout';
-import styled from 'styled-components';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -39,8 +41,13 @@ export default function App() {
           <AppLayout>
             <Switch>
               <Route exact path="/" component={HomePage} />
+
               <Route exact path="/top-up" component={TopUpPage} />
+
+              <Route exact path="/drinks" component={DrinksPage} />
+
               <Route exact path="/transactions" component={TransactionsPage} />
+              <Route exact path="/students" component={StudentPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </AppLayout>

@@ -13,20 +13,15 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import UserSearchDropdown from 'containers/UserSearchDropdown';
 import makeSelectTopUpPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 
 /* eslint-disable react/prefer-stateless-function */
 export class TopUpPage extends React.Component {
-  state = {};
-
-  handleChange = (e, { value }) => this.setState({ value });
-
   render() {
-    const { value } = this.state;
-
     return (
       <div style={{ height: '100%' }}>
         <Helmet>
@@ -44,16 +39,10 @@ export class TopUpPage extends React.Component {
             </Header>
             <Form size="large">
               <Segment>
-                <Form.Input
-                  fluid
-                  icon="user"
-                  iconPosition="left"
-                  placeholder="Étudiant"
-                />
+                <UserSearchDropdown fluid placeholder="Étudiant" />
                 <Form.Input
                   fluid
                   icon="dollar"
-                  iconPosition="left"
                   placeholder="Montant"
                   type="number"
                   step="0.01"
