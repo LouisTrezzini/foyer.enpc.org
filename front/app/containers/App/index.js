@@ -7,17 +7,18 @@
  *
  */
 
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import DrinksPage from 'containers/DrinksPage/Loadable';
 
 import HomePage from 'containers/HomePage/Loadable';
-import TopUpPage from 'containers/TopUpPage/Loadable';
-import DrinksPage from 'containers/DrinksPage/Loadable';
-import StudentPage from 'containers/StudentsPage/Loadable';
-import TransactionsPage from 'containers/TransactionsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import StatisticsPage from 'containers/StatisticsPage/Loadable';
+import StudentPage from 'containers/StudentsPage/Loadable';
+import TopUpPage from 'containers/TopUpPage/Loadable';
+import TransactionsPage from 'containers/TransactionsPage/Loadable';
+import React from 'react';
 
 import { Helmet } from 'react-helmet';
+import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import GlobalStyle from '../../global-styles';
 import AppLayout from '../AppLayout';
@@ -43,8 +44,8 @@ export default function App() {
               <Route exact path="/" component={HomePage} />
 
               <Route exact path="/top-up" component={TopUpPage} />
-
               <Route exact path="/drinks" component={DrinksPage} />
+              <Route exact path="/statistics" component={StatisticsPage} />
 
               <Route exact path="/transactions" component={TransactionsPage} />
               <Route exact path="/students" component={StudentPage} />

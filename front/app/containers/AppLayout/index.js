@@ -45,6 +45,10 @@ function AppLayout(props) {
             <Icon name="credit card outline" /> Rechargement
           </Menu.Item>
 
+          <Menu.Item as={Link} to="/statistics">
+            <Icon name="chart bar outline" /> Statistiques
+          </Menu.Item>
+
           <Dropdown item simple text="Gestion">
             <Dropdown.Menu>
               <Dropdown.Item as={Link} to="/drinks">
@@ -63,15 +67,6 @@ function AppLayout(props) {
               <Dropdown.Item as={Link} to="/students">
                 <Icon name="users" />
                 Étudiants
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Dropdown item simple text="Statistiques">
-            <Dropdown.Menu>
-              <Dropdown.Item as={Link} to="/stats/balance">
-                <Icon name="balance" />
-                Balances
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
