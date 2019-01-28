@@ -10,7 +10,9 @@
 import DrinksPage from 'containers/DrinksPage/Loadable';
 
 import HomePage from 'containers/HomePage/Loadable';
+import LoginPage from 'containers/LoginPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import PrivateRoute from 'containers/PrivateRoute';
 import StatisticsPage from 'containers/StatisticsPage/Loadable';
 import StudentPage from 'containers/StudentsPage/Loadable';
 import TopUpPage from 'containers/TopUpPage/Loadable';
@@ -38,7 +40,9 @@ export default function App() {
       </Helmet>
 
       <Switch>
-        <Route path="/">
+        <Route exact path="/login" component={LoginPage} />
+
+        <PrivateRoute path="/">
           <AppLayout>
             <Switch>
               <Route exact path="/" component={HomePage} />
@@ -52,7 +56,7 @@ export default function App() {
               <Route component={NotFoundPage} />
             </Switch>
           </AppLayout>
-        </Route>
+        </PrivateRoute>
 
         <Route component={NotFoundPage} />
       </Switch>

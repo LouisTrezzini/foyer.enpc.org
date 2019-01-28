@@ -4,15 +4,13 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import logo from 'images/foyer.jpg';
 import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { Link } from 'react-router-dom';
 import { compose } from 'redux';
-import styled from 'styled-components';
-
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { createStructuredSelector } from 'reselect';
 import {
   Button,
   Container,
@@ -21,11 +19,12 @@ import {
   Image,
   Menu,
 } from 'semantic-ui-react';
-import logo from 'images/foyer.jpg';
-import { Link } from 'react-router-dom';
-import makeSelectAppLayout from './selectors';
+import injectReducer from 'utils/injectReducer';
+
+import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
+import makeSelectAppLayout from './selectors';
 
 function AppLayout(props) {
   return (

@@ -10,14 +10,30 @@
  */
 
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import { Grid, Header } from 'semantic-ui-react';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class NotFound extends React.PureComponent {
   render() {
     return (
-      <h1>
-        Page not found
-      </h1>
+      <div style={{ height: '100%' }}>
+        <Helmet>
+          <title>Page non trouvée</title>
+        </Helmet>
+
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h1" textAlign="center">
+              Page non trouvée
+            </Header>
+          </Grid.Column>
+        </Grid>
+      </div>
     );
   }
 }
