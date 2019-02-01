@@ -4,21 +4,17 @@
  *
  */
 
-import { loginAction } from 'containers/LoginPage/actions';
+import { loginAction } from 'containers/App/actions';
+import { makeSelectAuth } from 'containers/App/selectors/auth';
 import logo from 'images/foyer.jpg';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react';
-import injectReducer from 'utils/injectReducer';
-
-import injectSaga from 'utils/injectSaga';
-import reducer from './reducer';
-import saga from './saga';
-import makeSelectLoginPage from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
@@ -32,6 +28,12 @@ export class LoginPage extends React.Component {
   };
 
   render() {
+    const { auth } = this.props;
+
+    if (auth.isAuthenticated) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div style={{ height: '100%' }}>
         <Helmet>
@@ -83,11 +85,12 @@ export class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
+  auth: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  loginPage: makeSelectLoginPage(),
+  auth: makeSelectAuth(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -103,11 +106,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'loginPage', reducer });
-const withSaga = injectSaga({ key: 'loginPage', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(LoginPage);
+export default compose(withConnect)(LoginPage);

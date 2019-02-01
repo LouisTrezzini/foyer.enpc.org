@@ -9,4 +9,5 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const LOGIN_ACTION = 'app/App/LOGIN_ACTION';
 export const LOGOUT_ACTION = 'app/App/LOGOUT_ACTION';

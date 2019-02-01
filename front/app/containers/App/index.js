@@ -21,12 +21,10 @@ import { Helmet } from 'react-helmet';
 import { Route, Switch } from 'react-router-dom';
 import { compose } from 'redux';
 import styled from 'styled-components';
-import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import GlobalStyle from '../../global-styles';
 import AppLayout from '../AppLayout';
-import reducer from './reducer';
 import saga from './saga';
 
 const Wrapper = styled.div`
@@ -65,10 +63,6 @@ const App = () => (
   </Wrapper>
 );
 
-const withReducer = injectReducer({ key: 'app', reducer });
 const withSaga = injectSaga({ key: 'app', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-)(App);
+export default compose(withSaga)(App);

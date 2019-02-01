@@ -4,7 +4,7 @@
  *
  */
 
-import { makeSelectAuth } from 'containers/App/selectors';
+import { makeSelectAuth } from 'containers/App/selectors/auth';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -18,7 +18,7 @@ export class PrivateRoute extends React.Component {
     const { auth, children, ...rest } = this.props;
     return (
       <Route {...rest}>
-        {auth.isConnected ? ( // FIXME
+        {auth.isAuthenticated ? (
           children
         ) : (
           <Redirect
