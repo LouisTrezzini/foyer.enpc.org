@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 const selectRouter = state => state.get('router');
 
@@ -7,4 +8,11 @@ const makeSelectLocation = () =>
     routerState.get('location').toJS(),
   );
 
-export { makeSelectLocation };
+const selectApp = state => state.get('app', initialState);
+
+const selectAuth = createSelector(selectApp, app => app.get('auth'));
+
+const makeSelectAuth = () =>
+  createSelector(selectAuth, substate => substate.toJS());
+
+export { makeSelectLocation, makeSelectAuth };

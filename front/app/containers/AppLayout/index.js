@@ -4,6 +4,7 @@
  *
  */
 
+import { logoutAction } from 'containers/App/actions';
 import logo from 'images/foyer.jpg';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
@@ -27,6 +28,7 @@ import saga from './saga';
 import makeSelectAppLayout from './selectors';
 
 function AppLayout(props) {
+  const { logout } = props;
   return (
     <Fragment>
       <Menu fixed="top" stackable>
@@ -72,7 +74,7 @@ function AppLayout(props) {
 
           <Menu.Menu position="right">
             <Menu.Item>
-              <Button>
+              <Button onClick={logout}>
                 <Icon name="log out" />
                 Se déconnecter
               </Button>
@@ -89,7 +91,7 @@ function AppLayout(props) {
 }
 
 AppLayout.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -98,7 +100,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    logout: () => dispatch(logoutAction()),
   };
 }
 

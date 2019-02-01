@@ -4,29 +4,38 @@
  *
  */
 
-import React from 'react';
+import { loginAction } from 'containers/LoginPage/actions';
+import logo from 'images/foyer.jpg';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react';
+import injectReducer from 'utils/injectReducer';
 
 import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-
-import logo from 'images/foyer.jpg';
+import makeSelectLoginPage from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class LoginPage extends React.Component {
+  handleInputChange = (event, { name, value }) =>
+    this.setState({ [name]: value });
+
+  handleSubmit = event => {
+    const { username, password } = this.state;
+    this.props.login(username, password);
+    event.preventDefault();
+  };
+
   render() {
     return (
       <div style={{ height: '100%' }}>
         <Helmet>
-          <title>Rechargement</title>
+          <title>Connexion</title>
         </Helmet>
 
         <Grid
@@ -41,14 +50,24 @@ export class LoginPage extends React.Component {
               Connexion
             </Header>
 
-            <Form size="large">
+            <Form size="large" onSubmit={this.handleSubmit}>
               <Segment>
-                <Form.Input fluid icon="user" placeholder="Username" />
                 <Form.Input
+                  name="username"
+                  onChange={this.handleInputChange}
+                  fluid
+                  icon="user"
+                  placeholder="Username"
+                  required
+                />
+                <Form.Input
+                  name="password"
+                  onChange={this.handleInputChange}
                   fluid
                   icon="lock"
                   placeholder="Mot de passe"
                   type="password"
+                  required
                 />
 
                 <Button primary fluid size="large">
@@ -64,7 +83,7 @@ export class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -73,7 +92,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    login: (username, password) => {
+      dispatch(loginAction(username, password));
+    },
   };
 }
 

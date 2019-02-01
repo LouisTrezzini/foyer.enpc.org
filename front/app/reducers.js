@@ -11,10 +11,7 @@ import history from 'utils/history';
  * Merges the main reducer with the router state and dynamically injected reducers
  */
 export default function createReducer(injectedReducers = {}) {
-  const rootReducer = combineReducers({
-    potato: (state = {}) => state, // FIXME
-    ...injectedReducers,
-  });
+  const rootReducer = combineReducers(injectedReducers);
 
   // Wrap the root reducer and return a new root reducer with router state
   const mergeWithRouterState = connectRouter(history);
