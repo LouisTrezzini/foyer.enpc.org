@@ -4,7 +4,7 @@
  *
  */
 
-import { makeSelectAuth } from 'containers/App/selectors/auth';
+import { makeSelectIsAuthenticated } from 'containers/App/selectors/auth';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -15,10 +15,10 @@ import { createStructuredSelector } from 'reselect';
 /* eslint-disable react/prefer-stateless-function */
 export class PrivateRoute extends React.Component {
   render() {
-    const { auth, children, ...rest } = this.props;
+    const { isAuthenticated, children, ...rest } = this.props;
     return (
       <Route {...rest}>
-        {auth.isAuthenticated ? (
+        {isAuthenticated ? (
           children
         ) : (
           <Redirect
@@ -34,11 +34,11 @@ export class PrivateRoute extends React.Component {
 }
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  auth: makeSelectAuth(),
+  isAuthenticated: makeSelectIsAuthenticated(),
 });
 const withConnect = connect(mapStateToProps);
 

@@ -61,13 +61,17 @@ class TransactionsTable extends React.Component {
         <Table.Cell>
           <Header
             as="h4"
-            image={`https://upont.enpc.fr/api/${transaction.user.image_url}`}
+            image={
+              transaction.user.image_url
+                ? `https://upont.enpc.fr/api/${transaction.user.image_url}`
+                : null
+            }
             content={fullName}
           />
         </Table.Cell>
-        <Table.Cell>{transaction.beer.name}</Table.Cell>
+        <Table.Cell>{transaction.beer ? transaction.beer.name : 'Rechargement'}</Table.Cell>
         <Table.Cell>{moment(transaction.date * 1000).format('lll')}</Table.Cell>
-        <Table.Cell collapsing>
+        <Table.Cell collapsing negative={transaction.amount < 0} positive={transaction.amount > 0}>
           <CurrencyFormat value={transaction.amount} />
         </Table.Cell>
         <Table.Cell collapsing>

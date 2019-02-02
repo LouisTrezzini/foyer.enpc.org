@@ -21,10 +21,7 @@ import {
   Menu,
 } from 'semantic-ui-react';
 import injectReducer from 'utils/injectReducer';
-
-import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
-import saga from './saga';
 import makeSelectAppLayout from './selectors';
 
 function AppLayout(props) {
@@ -110,10 +107,8 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'appLayout', reducer });
-const withSaga = injectSaga({ key: 'appLayout', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(AppLayout);

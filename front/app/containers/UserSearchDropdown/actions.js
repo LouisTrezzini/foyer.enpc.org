@@ -4,10 +4,21 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { SEARCH_USER } from './constants';
 
-export function defaultAction() {
+export function searchUserAction(query) {
   return {
-    type: DEFAULT_ACTION,
+    type: SEARCH_USER,
+    payload: {
+      query,
+
+      request: {
+        method: 'POST',
+        url: '/search',
+        data: {
+          search: `User/${query}`,
+        },
+      },
+    },
   };
 }

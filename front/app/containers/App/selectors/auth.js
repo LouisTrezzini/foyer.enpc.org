@@ -3,7 +3,12 @@ import { initialState } from '../reducers/auth';
 
 const selectAuth = state => state.get('auth', initialState);
 
-const makeSelectAuth = () =>
-  createSelector(selectAuth, substate => substate.toJS());
+const makeSelectAuth = () => createSelector(selectAuth, auth => auth.toJS());
 
-export { makeSelectAuth };
+const makeSelectIsAuthenticated = () =>
+  createSelector(selectAuth, auth => auth.get('isAuthenticated'));
+
+const makeSelectAuthToken = () =>
+  createSelector(selectAuth, auth => auth.get('token'));
+
+export { makeSelectAuth, makeSelectIsAuthenticated, makeSelectAuthToken };

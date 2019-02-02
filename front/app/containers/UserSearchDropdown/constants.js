@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/UserSearchDropdown/DEFAULT_ACTION';
+export const SEARCH_USER = 'app/UserSearchDropdown/SEARCH_USER';

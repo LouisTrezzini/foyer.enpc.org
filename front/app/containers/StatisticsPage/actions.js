@@ -4,10 +4,16 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { FETCH_STATISTICS } from './constants';
 
-export function defaultAction() {
+export function fetchStatisticsAction() {
   return {
-    type: DEFAULT_ACTION,
+    type: FETCH_STATISTICS,
+    payload: {
+      request: {
+        method: 'GET',
+        url: '/statistics/foyer/dashboard',
+      },
+    },
   };
 }

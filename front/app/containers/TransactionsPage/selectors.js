@@ -13,7 +13,7 @@ const selectTransactionsPageDomain = state =>
  */
 const makeSelectTransactions = () =>
   createSelector(selectTransactionsPageDomain, substate =>
-    substate.get('transactions').toJS(),
+    substate.get('transactions'),
   );
 
 /**

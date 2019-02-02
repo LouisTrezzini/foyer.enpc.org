@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/DrinksPage/DEFAULT_ACTION';
+export const FETCH_DRINKS = 'app/DrinksPage/FETCH_DRINKS';

@@ -4,18 +4,7 @@
  *
  */
 
-import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { requestsReducer } from 'redux-saga-requests';
+import { SEARCH_USER } from './constants';
 
-export const initialState = fromJS({});
-
-function userSearchDropdownReducer(state = initialState, action) {
-  switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
-    default:
-      return state;
-  }
-}
-
-export default userSearchDropdownReducer;
+export default requestsReducer({ actionType: SEARCH_USER });

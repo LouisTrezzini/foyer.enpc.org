@@ -4,81 +4,51 @@
  *
  */
 
-import React from 'react';
+import { searchUserAction } from 'containers/UserSearchDropdown/actions';
+import {
+  makeSelectUserSearchDropdownIsLoading,
+  makeSelectUserSearchDropdownResults,
+} from 'containers/UserSearchDropdown/selectors';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { createStructuredSelector } from 'reselect';
 import { Form } from 'semantic-ui-react';
-import makeSelectUserSearchDropdown from './selectors';
+import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import saga from './saga';
 
 function makeOptionsFromUsers(users) {
   return users.map(user => ({
-    key: user.username,
-    text: `${user.firstName} ${user.lastName} (${user.promo})`,
-    value: user.username,
+    key: user.slug,
+    text: `${user.name} (${user.promo})`,
+    value: user.slug,
   }));
 }
 
 /* eslint-disable react/prefer-stateless-function */
 export class UserSearchDropdown extends React.Component {
-  state = {
-    isFetching: false,
-    searchQuery: null,
-    users: [],
-    options: [],
-  };
-
-  fetchOptions = () => {
-    this.setState({ isFetching: true });
-
-    const users = [
-      {
-        username: 'louist',
-        firstName: 'Louis',
-        lastName: 'Trezzini',
-        promo: '018',
-      },
-    ];
-
-    setTimeout(() => {
-      this.setState({
-        isFetching: false,
-        options: makeOptionsFromUsers(users),
-        users,
-      });
-    }, 500);
-  };
-
-  handleChange = (e, { value }) => this.setState({ value });
-
   handleSearchChange = (e, { searchQuery }) => {
-    this.setState({ searchQuery });
-    this.fetchOptions();
+    this.props.searchUser(searchQuery);
   };
 
   render() {
-    const { options, isFetching } = this.state;
+    const { fluid, name, value, onChange, loading, users } = this.props;
 
     return (
       <Form.Dropdown
-        fluid={this.props.fluid}
+        name={name}
+        onChange={onChange}
+        value={value}
+        fluid={fluid}
         selection
         search
         // icon="user"
         // iconPosition="left"
         placeholder="Étudiant"
-        options={options}
-        value={this.props.value}
-        onChange={this.props.handleChange}
+        options={makeOptionsFromUsers(users)}
         onSearchChange={this.handleSearchChange}
-        disabled={isFetching}
-        loading={isFetching}
+        loading={loading}
         noResultsMessage="Pas de résultats."
       />
     );
@@ -86,16 +56,24 @@ export class UserSearchDropdown extends React.Component {
 }
 
 UserSearchDropdown.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  fluid: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+
+  users: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  searchUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  userSearchDropdown: makeSelectUserSearchDropdown(),
+  users: makeSelectUserSearchDropdownResults(),
+  loading: makeSelectUserSearchDropdownIsLoading(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    searchUser: query => dispatch(searchUserAction(query)),
   };
 }
 
@@ -105,10 +83,8 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'userSearchDropdown', reducer });
-const withSaga = injectSaga({ key: 'userSearchDropdown', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(UserSearchDropdown);

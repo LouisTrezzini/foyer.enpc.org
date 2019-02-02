@@ -4,24 +4,43 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
-import makeSelectTopUpPage from './selectors';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import saga from './saga';
+import makeSelectTopUpPage from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class TopUpPage extends React.Component {
+  state = { student: null };
+
+  processValue(name, value) {
+    if (name === 'amount') {
+      return +value;
+    }
+
+    return value;
+  }
+
+  handleInputChange = (event, { name, value }) => {
+    this.setState({ [name]: this.processValue(name, value) });
+  };
+
+  handleSubmit = event => {
+    const { student, amount } = this.state;
+
+    console.log(student, amount); // FIXME
+    event.preventDefault();
+  };
+
   render() {
+    const { student } = this.state;
     return (
       <div style={{ height: '100%' }}>
         <Helmet>
@@ -37,10 +56,18 @@ export class TopUpPage extends React.Component {
             <Header as="h2" textAlign="center">
               Recharger un compte Foyer
             </Header>
-            <Form size="large">
+            <Form size="large" onSubmit={this.handleSubmit}>
               <Segment>
-                <UserSearchDropdown fluid placeholder="Étudiant" />
+                <UserSearchDropdown
+                  name="student"
+                  onChange={this.handleInputChange}
+                  value={student}
+                  fluid
+                  placeholder="Étudiant"
+                />
                 <Form.Input
+                  name="amount"
+                  onChange={this.handleInputChange}
                   fluid
                   icon="dollar"
                   placeholder="Montant"
@@ -80,10 +107,8 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'topUpPage', reducer });
-const withSaga = injectSaga({ key: 'topUpPage', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(TopUpPage);

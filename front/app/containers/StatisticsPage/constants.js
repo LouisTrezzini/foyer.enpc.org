@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/StatisticsPage/DEFAULT_ACTION';
+export const FETCH_STATISTICS = 'app/StatisticsPage/FETCH_STATISTICS';

@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
 /**
  * Direct selector to the userSearchDropdown state domain
  */
 
-const selectUserSearchDropdownDomain = state =>
-  state.get('userSearchDropdown', initialState);
+const selectUserSearchDropdownDomain = state => state.get('userSearchDropdown');
 
 /**
  * Other specific selectors
@@ -16,8 +14,19 @@ const selectUserSearchDropdownDomain = state =>
  * Default selector used by UserSearchDropdown
  */
 
-const makeSelectUserSearchDropdown = () =>
-  createSelector(selectUserSearchDropdownDomain, substate => substate.toJS());
+const makeSelectUserSearchDropdownResults = () =>
+  createSelector(
+    selectUserSearchDropdownDomain,
+    substate => (substate.data ? substate.data.users : []),
+  );
 
-export default makeSelectUserSearchDropdown;
-export { selectUserSearchDropdownDomain };
+const makeSelectUserSearchDropdownIsLoading = () =>
+  createSelector(
+    selectUserSearchDropdownDomain,
+    substate => substate.pending > 0,
+  );
+
+export {
+  makeSelectUserSearchDropdownResults,
+  makeSelectUserSearchDropdownIsLoading,
+};

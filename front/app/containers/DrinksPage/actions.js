@@ -4,10 +4,16 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { FETCH_DRINKS } from './constants';
 
-export function defaultAction() {
+export function fetchDrinksAction() {
   return {
-    type: DEFAULT_ACTION,
+    type: FETCH_DRINKS,
+    payload: {
+      request: {
+        method: 'GET',
+        url: '/beers',
+      },
+    },
   };
 }

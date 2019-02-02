@@ -4,10 +4,16 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { FETCH_TRANSACTIONS } from './constants';
 
-export function defaultAction() {
+export function fetchTransactionsAction() {
   return {
-    type: DEFAULT_ACTION,
+    type: FETCH_TRANSACTIONS,
+    payload: {
+      request: {
+        method: 'GET',
+        url: '/transactions',
+      },
+    },
   };
 }

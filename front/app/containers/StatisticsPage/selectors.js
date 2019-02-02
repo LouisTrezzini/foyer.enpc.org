@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
 /**
  * Direct selector to the statisticsPage state domain
  */
 
-const selectStatisticsPageDomain = state =>
-  state.get('statisticsPage', initialState);
+const selectStatisticsPageDomain = state => state.get('statisticsPage');
 
 /**
  * Other specific selectors
@@ -16,8 +14,34 @@ const selectStatisticsPageDomain = state =>
  * Default selector used by StatisticsPage
  */
 
-const makeSelectStatisticsPage = () =>
-  createSelector(selectStatisticsPageDomain, substate => substate.toJS());
+const makeSelectStatisticsPageIsLoading = () =>
+  createSelector(
+    selectStatisticsPageDomain,
+    substate => substate.data === null || substate.pending > 0,
+  );
 
-export default makeSelectStatisticsPage;
-export { selectStatisticsPageDomain };
+const makeSelectStatisticsPromoBalances = () =>
+  createSelector(selectStatisticsPageDomain, substate => {
+    const stats = substate.data.promoBalances;
+    if (!stats) {
+      return null;
+    }
+
+    return stats.labels.map((e, i) => ({ promo: e, balance: stats.data[i] }));
+  });
+
+const makeSelectStatisticsSoldDrinks = () =>
+  createSelector(selectStatisticsPageDomain, substate => {
+    const stats = substate.data.soldBeers;
+    if (!stats) {
+      return null;
+    }
+
+    return stats.labels.map((e, i) => ({ drink: e, count: +stats.data[i] }));
+  });
+
+export {
+  makeSelectStatisticsPageIsLoading,
+  makeSelectStatisticsPromoBalances,
+  makeSelectStatisticsSoldDrinks,
+};

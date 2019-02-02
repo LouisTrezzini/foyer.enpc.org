@@ -13,13 +13,16 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Header } from 'semantic-ui-react';
 import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
+import { fetchTransactionsAction } from './actions';
 import reducer from './reducer';
-import saga from './saga';
 import { makeSelectTransactions } from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class TransactionsPage extends React.Component {
+  componentWillMount() {
+    this.props.fetchTransactions();
+  }
+
   render() {
     const { transactions } = this.props;
     return (
@@ -38,6 +41,8 @@ export class TransactionsPage extends React.Component {
 
 TransactionsPage.propTypes = {
   transactions: PropTypes.array.isRequired,
+
+  fetchTransactions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -46,7 +51,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchTransactions: () => dispatch(fetchTransactionsAction()),
   };
 }
 
@@ -56,10 +61,8 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'transactionsPage', reducer });
-const withSaga = injectSaga({ key: 'transactionsPage', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(TransactionsPage);

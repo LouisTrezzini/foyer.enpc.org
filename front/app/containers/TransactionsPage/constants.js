@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/TransactionsPage/DEFAULT_ACTION';
+export const FETCH_TRANSACTIONS = 'app/TransactionsPage/FETCH_TRANSACTIONS';

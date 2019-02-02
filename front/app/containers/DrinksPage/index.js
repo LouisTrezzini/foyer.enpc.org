@@ -4,23 +4,25 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import { Button, Card, Grid, Header } from 'semantic-ui-react';
 import Avatar from 'components/Avatar';
-import { makeSelectDrinks } from './selectors';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { Button, Card, Grid, Header } from 'semantic-ui-react';
+import injectReducer from 'utils/injectReducer';
+import { fetchDrinksAction } from './actions';
 import reducer from './reducer';
-import saga from './saga';
+import { makeSelectDrinks } from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class DrinksPage extends React.Component {
+  componentWillMount() {
+    this.props.fetchDrinks();
+  }
+
   render() {
     return (
       <div>
@@ -65,6 +67,7 @@ export class DrinksPage extends React.Component {
 
 DrinksPage.propTypes = {
   drinks: PropTypes.array.isRequired,
+  fetchDrinks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -73,7 +76,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchDrinks: () => dispatch(fetchDrinksAction()),
   };
 }
 
@@ -83,10 +86,8 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'drinksPage', reducer });
-const withSaga = injectSaga({ key: 'drinksPage', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(DrinksPage);
