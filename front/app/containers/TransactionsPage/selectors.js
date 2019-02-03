@@ -1,27 +1,26 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
 /**
  * Direct selector to the transactionsPage state domain
  */
 
-const selectTransactionsPageDomain = state =>
-  state.get('transactionsPage', initialState);
+const selectTransactionsPageDomain = state => state.get('transactionsPage');
 
 /**
  * Other specific selectors
  */
-const makeSelectTransactions = () =>
-  createSelector(selectTransactionsPageDomain, substate =>
-    substate.get('transactions'),
+const makeSelectTransactionsPageIsLoading = () =>
+  createSelector(
+    selectTransactionsPageDomain,
+    substate => substate.data === null || substate.pending > 0,
   );
 
-/**
- * Default selector used by TransactionsPage
- */
+const makeSelectTransactions = () =>
+  createSelector(selectTransactionsPageDomain, substate => {
+    if (!substate.data) {
+      return null;
+    }
+    return substate.data.data;
+  });
 
-const makeSelectTransactionsPage = () =>
-  createSelector(selectTransactionsPageDomain, substate => substate.toJS());
-
-export default makeSelectTransactionsPage;
-export { selectTransactionsPageDomain, makeSelectTransactions };
+export { makeSelectTransactionsPageIsLoading, makeSelectTransactions };

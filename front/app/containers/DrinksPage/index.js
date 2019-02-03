@@ -11,11 +11,11 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Button, Card, Grid, Header } from 'semantic-ui-react';
+import { Button, Card, Grid, Header, Loader } from 'semantic-ui-react';
 import injectReducer from 'utils/injectReducer';
 import { fetchDrinksAction } from './actions';
 import reducer from './reducer';
-import { makeSelectDrinks } from './selectors';
+import { makeSelectDrinks, makeSelectDrinksPageIsLoading } from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class DrinksPage extends React.Component {
@@ -41,10 +41,21 @@ export class DrinksPage extends React.Component {
           </Grid.Column>
         </Grid>
 
-        <Card.Group itemsPerRow={4} stackable doubling>
-          {this.props.drinks.map(drink => this.renderDrink(drink))}
-        </Card.Group>
+        {this.renderDrinks()}
       </div>
+    );
+  }
+
+  renderDrinks() {
+    const { loading } = this.props;
+    if (loading) {
+      return <Loader active />;
+    }
+
+    return (
+      <Card.Group itemsPerRow={4} stackable doubling>
+        {this.props.drinks.map(drink => this.renderDrink(drink))}
+      </Card.Group>
     );
   }
 
@@ -66,11 +77,13 @@ export class DrinksPage extends React.Component {
 }
 
 DrinksPage.propTypes = {
-  drinks: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  drinks: PropTypes.array,
   fetchDrinks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
+  loading: makeSelectDrinksPageIsLoading(),
   drinks: makeSelectDrinks(),
 });
 

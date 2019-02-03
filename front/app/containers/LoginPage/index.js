@@ -31,7 +31,9 @@ export class LoginPage extends React.Component {
     const { auth } = this.props;
 
     if (auth.isAuthenticated) {
-      return <Redirect to="/" />;
+      console.log(this.props.location);
+      const { from } = this.props.location.state || { from: { pathname: '/' } };
+      return <Redirect to={from} />;
     }
 
     return (

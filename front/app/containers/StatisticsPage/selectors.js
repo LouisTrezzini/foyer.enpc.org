@@ -22,6 +22,9 @@ const makeSelectStatisticsPageIsLoading = () =>
 
 const makeSelectStatisticsPromoBalances = () =>
   createSelector(selectStatisticsPageDomain, substate => {
+    if (!substate.data) {
+      return null;
+    }
     const stats = substate.data.promoBalances;
     if (!stats) {
       return null;
@@ -32,6 +35,9 @@ const makeSelectStatisticsPromoBalances = () =>
 
 const makeSelectStatisticsSoldDrinks = () =>
   createSelector(selectStatisticsPageDomain, substate => {
+    if (!substate.data) {
+      return null;
+    }
     const stats = substate.data.soldBeers;
     if (!stats) {
       return null;

@@ -113,8 +113,8 @@ export class StatisticsPage extends React.Component {
 
 StatisticsPage.propTypes = {
   loading: PropTypes.bool.isRequired,
-  promoBalances: PropTypes.array.isRequired,
-  soldDrinks: PropTypes.array.isRequired,
+  promoBalances: PropTypes.array,
+  soldDrinks: PropTypes.array,
   fetchStatistics: PropTypes.func.isRequired,
 };
 

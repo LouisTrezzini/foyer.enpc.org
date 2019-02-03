@@ -4,6 +4,7 @@
  *
  */
 
+import { makeSelectLocation } from 'containers/App/selectors';
 import { makeSelectIsAuthenticated } from 'containers/App/selectors/auth';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -34,10 +35,13 @@ export class PrivateRoute extends React.Component {
 }
 
 PrivateRoute.propTypes = {
+  location: PropTypes.object.isRequired,
+  children: PropTypes.element,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
+  location: makeSelectLocation(),
   isAuthenticated: makeSelectIsAuthenticated(),
 });
 const withConnect = connect(mapStateToProps);
