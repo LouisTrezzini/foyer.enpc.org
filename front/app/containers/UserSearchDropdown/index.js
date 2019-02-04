@@ -9,6 +9,7 @@ import {
   makeSelectUserSearchDropdownIsLoading,
   makeSelectUserSearchDropdownResults,
 } from 'containers/UserSearchDropdown/selectors';
+import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -28,9 +29,9 @@ function makeOptionsFromUsers(users) {
 
 /* eslint-disable react/prefer-stateless-function */
 export class UserSearchDropdown extends React.Component {
-  handleSearchChange = (e, { searchQuery }) => {
+  handleSearchChange = debounce((e, { searchQuery }) => {
     this.props.searchUser(searchQuery);
-  };
+  }, 200);
 
   render() {
     const { fluid, name, value, onChange, loading, users } = this.props;

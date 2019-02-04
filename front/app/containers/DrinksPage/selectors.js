@@ -17,6 +17,9 @@ const makeSelectDrinksPageIsLoading = () =>
   );
 
 const makeSelectDrinks = () =>
-  createSelector(selectDrinksPageDomain, substate => substate.data);
+  createSelector(
+    selectDrinksPageDomain,
+    substate => substate.data,
+  );
 
 export { makeSelectDrinksPageIsLoading, makeSelectDrinks };

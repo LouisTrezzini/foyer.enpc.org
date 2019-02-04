@@ -9,10 +9,11 @@ import { LOGIN_ACTION, LOGOUT_ACTION } from './constants';
 export function loginAction(username, password) {
   return {
     type: LOGIN_ACTION,
-    payload: {
+    meta: {
       username,
       password,
-
+    },
+    payload: {
       request: {
         method: 'POST',
         url: '/login',

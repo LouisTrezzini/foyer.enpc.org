@@ -4,10 +4,25 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { FETCH_STUDENT } from './constants';
 
-export function defaultAction() {
+export function fetchStudentAction(username) {
   return {
-    type: DEFAULT_ACTION,
+    type: FETCH_STUDENT,
+    meta: {
+      username,
+    },
+    payload: {
+      request: [
+        {
+          method: 'GET',
+          url: `/users/${username}`,
+        },
+        {
+          method: 'GET',
+          url: `/users/${username}/transactions`,
+        },
+      ],
+    },
   };
 }

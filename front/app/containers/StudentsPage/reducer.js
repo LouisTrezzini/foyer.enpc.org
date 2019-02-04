@@ -4,18 +4,7 @@
  *
  */
 
-import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { requestsReducer } from 'redux-saga-requests';
+import { FETCH_STUDENT } from './constants';
 
-export const initialState = fromJS({});
-
-function studentPageReducer(state = initialState, action) {
-  switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
-    default:
-      return state;
-  }
-}
-
-export default studentPageReducer;
+export default requestsReducer({ actionType: FETCH_STUDENT });

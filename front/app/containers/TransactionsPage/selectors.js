@@ -16,11 +16,9 @@ const makeSelectTransactionsPageIsLoading = () =>
   );
 
 const makeSelectTransactions = () =>
-  createSelector(selectTransactionsPageDomain, substate => {
-    if (!substate.data) {
-      return null;
-    }
-    return substate.data.data;
-  });
+  createSelector(
+    selectTransactionsPageDomain,
+    substate => substate.data,
+  );
 
 export { makeSelectTransactionsPageIsLoading, makeSelectTransactions };

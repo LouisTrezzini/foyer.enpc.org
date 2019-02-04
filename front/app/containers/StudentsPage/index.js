@@ -8,23 +8,28 @@ import Avatar from 'components/Avatar';
 import CurrencyFormat from 'components/CurrencyFormat';
 import TransactionsTable from 'components/TransactionsTable';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Card, Header, Icon, Image, Item } from 'semantic-ui-react';
-
-import injectSaga from 'utils/injectSaga';
+import { createStructuredSelector } from 'reselect';
+import { Card, Header, Icon, Loader } from 'semantic-ui-react';
 import injectReducer from 'utils/injectReducer';
 import makeFullName from 'utils/makeFullName';
-import makeSelectStudentPage from './selectors';
+import { fetchStudentAction } from './actions';
 import reducer from './reducer';
-import saga from './saga';
+import {
+  makeSelectStudentPageIsLoading,
+  makeSelectStudentPageStudent, makeSelectStudentPageTransactions,
+} from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentsPage extends React.Component {
+  handleStudentChange = (e, { value: username }) => {
+    this.props.fetchStudent(username);
+  };
+
   render() {
     return (
       <div>
@@ -34,7 +39,11 @@ export class StudentsPage extends React.Component {
 
         <Header as="h2">Consulter le profil d'un étudiant</Header>
 
-        <UserSearchDropdown fluid placeholder="Étudiant" />
+        <UserSearchDropdown
+          onChange={this.handleStudentChange}
+          fluid
+          placeholder="Étudiant"
+        />
 
         {this.renderStudent()}
       </div>
@@ -42,34 +51,17 @@ export class StudentsPage extends React.Component {
   }
 
   renderStudent() {
-    // const { student } = this.props;
-    const student = {
-      username: 'gabriel.plantier',
-      email: 'gabriel.plantier@eleves.enpc.fr',
-      image_url: 'uploads/images/3458.jpeg',
-      nick: 'Gabriel Plantier',
-      first_name: 'Gabriel',
-      last_name: 'Plantier',
-      gender: 'M',
-      promo: '019',
-      department: 'SEGF',
-      origin: 'Concours Commun',
-      nationality: 'France',
-      location: 'meunier',
-      phone: '0603861699',
-      tour: true,
-      stats_foyer: true,
-      stats_ponthub: true,
-      stats_facegame: true,
-      balance: -25.29,
-      mail_event: true,
-      mail_modification: true,
-      mail_shotgun: true,
-    };
+    const { loading } = this.props;
+    if (loading) {
+      return <Loader active />;
+    }
 
+    const { student } = this.props;
     if (!student) {
       return null;
     }
+
+    const { transactions } = this.props;
 
     return (
       <Fragment>
@@ -86,23 +78,28 @@ export class StudentsPage extends React.Component {
 
         <Header>Historique des transactions</Header>
 
-        <TransactionsTable transactions={[]} />
+        <TransactionsTable transactions={transactions} />
       </Fragment>
     );
   }
 }
 
 StudentsPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  student: PropTypes.object,
+  transactions: PropTypes.object,
+  fetchStudent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  studentPage: makeSelectStudentPage(),
+  loading: makeSelectStudentPageIsLoading(),
+  student: makeSelectStudentPageStudent(),
+  transactions: makeSelectStudentPageTransactions(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    fetchStudent: username => dispatch(fetchStudentAction(username)),
   };
 }
 
@@ -112,10 +109,8 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'studentPage', reducer });
-const withSaga = injectSaga({ key: 'studentPage', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect,
 )(StudentsPage);

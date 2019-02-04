@@ -8,12 +8,14 @@ import CurrencyFormat from 'components/CurrencyFormat';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Header, Icon, Menu, Table } from 'semantic-ui-react';
+import { Button, Header, Icon, Menu, Pagination, Table } from 'semantic-ui-react';
 import makeFullName from 'utils/makeFullName';
 
 /* eslint-disable react/prefer-stateless-function */
 class TransactionsTable extends React.Component {
   render() {
+    const { transactions } = this.props;
+
     return (
       <Table celled>
         <Table.Header>
@@ -27,7 +29,7 @@ class TransactionsTable extends React.Component {
         </Table.Header>
 
         <Table.Body>
-          {this.props.transactions.map(transaction =>
+          {transactions.data.map(transaction =>
             this.renderTransaction(transaction),
           )}
         </Table.Body>
@@ -35,18 +37,11 @@ class TransactionsTable extends React.Component {
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan="5">
-              <Menu floated="right" pagination>
-                <Menu.Item as="a" icon>
-                  <Icon name="chevron left" />
-                </Menu.Item>
-                <Menu.Item as="a">1</Menu.Item>
-                <Menu.Item as="a">2</Menu.Item>
-                <Menu.Item as="a">3</Menu.Item>
-                <Menu.Item as="a">4</Menu.Item>
-                <Menu.Item as="a" icon>
-                  <Icon name="chevron right" />
-                </Menu.Item>
-              </Menu>
+              <Pagination
+                activePage={transactions.pagination_infos.current_page}
+                // onPageChange={this.handlePaginationChange}
+                totalPages={transactions.pagination_infos.total_pages}
+              />
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>

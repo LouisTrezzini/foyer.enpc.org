@@ -1,22 +1,45 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
 /**
  * Direct selector to the studentPage state domain
  */
 
-const selectStudentPageDomain = state => state.get('studentPage', initialState);
+const selectStudentPageDomain = state => state.get('studentPage');
 
 /**
  * Other specific selectors
  */
 
-/**
- * Default selector used by StudentsPage
- */
+const makeSelectStudentPageIsLoading = () =>
+  createSelector(
+    selectStudentPageDomain,
+    substate => substate.pending > 0,
+  );
 
-const makeSelectStudentPage = () =>
-  createSelector(selectStudentPageDomain, substate => substate.toJS());
+const makeSelectStudentPageStudent = () =>
+  createSelector(
+    selectStudentPageDomain,
+    substate => {
+      if (!substate.data) {
+        return null;
+      }
+      return substate.data[0];
+    },
+  );
 
-export default makeSelectStudentPage;
-export { selectStudentPageDomain };
+const makeSelectStudentPageTransactions = () =>
+  createSelector(
+    selectStudentPageDomain,
+    substate => {
+      if (!substate.data) {
+        return null;
+      }
+      return substate.data[1];
+    },
+  );
+
+export {
+  makeSelectStudentPageIsLoading,
+  makeSelectStudentPageStudent,
+  makeSelectStudentPageTransactions,
+};

@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/StudentsPage/DEFAULT_ACTION';
+export const FETCH_STUDENT = 'app/StudentsPage/FETCH_STUDENT';

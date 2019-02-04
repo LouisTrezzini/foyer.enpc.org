@@ -9,9 +9,10 @@ import { SEARCH_USER } from './constants';
 export function searchUserAction(query) {
   return {
     type: SEARCH_USER,
-    payload: {
+    meta: {
       query,
-
+    },
+    payload: {
       request: {
         method: 'POST',
         url: '/search',
