@@ -1,22 +1,32 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
 /**
  * Direct selector to the topUpPage state domain
  */
 
-const selectTopUpPageDomain = state => state.get('topUpPage', initialState);
+const selectTopUpPageDomain = state => state.get('topUpPage');
 
 /**
  * Other specific selectors
  */
 
-/**
- * Default selector used by TopUpPage
- */
+const makeSelectTopUpPageIsLoading = () =>
+  createSelector(
+    selectTopUpPageDomain,
+    substate => substate.pending > 0,
+  );
 
-const makeSelectTopUpPage = () =>
-  createSelector(selectTopUpPageDomain, substate => substate.toJS());
+const makeSelectTopUpPageIsDimmed = () =>
+  createSelector(
+    selectTopUpPageDomain,
+    substate => substate.isDimmed,
+  );
 
-export default makeSelectTopUpPage;
-export { selectTopUpPageDomain };
+const makeSelectTopUpPageMeta = () =>
+  createSelector(
+    selectTopUpPageDomain,
+    substate => substate.meta || {},
+  );
+
+
+export { makeSelectTopUpPageIsDimmed, makeSelectTopUpPageIsLoading, makeSelectTopUpPageMeta };

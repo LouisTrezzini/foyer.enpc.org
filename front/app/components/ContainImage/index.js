@@ -1,6 +1,6 @@
 /**
  *
- * Avatar
+ * ContainImage
  *
  */
 
@@ -8,15 +8,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const AvatarContainer = styled.div`
+const ContainImageWrapper = styled.div`
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 `;
 
-function Avatar({ size, src }) {
+function ContainImage({ size, src }) {
   return (
-    <AvatarContainer
+    <ContainImageWrapper
       style={{
         height: size,
         backgroundImage: src
@@ -27,9 +27,9 @@ function Avatar({ size, src }) {
   );
 }
 
-Avatar.propTypes = {
+ContainImage.propTypes = {
   // size: PropTypes.oneOf([PropTypes.string(), PropTypes.number()]).isRequired,
   src: PropTypes.string,
 };
 
-export default Avatar;
+export default ContainImage;

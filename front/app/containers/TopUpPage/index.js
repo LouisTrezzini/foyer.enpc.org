@@ -4,6 +4,15 @@
  *
  */
 
+import CurrencyFormat from 'components/CurrencyFormat';
+import {
+  closeSuccessDimmerAction,
+  topUpAction,
+} from 'containers/TopUpPage/actions';
+import {
+  makeSelectTopUpPageIsDimmed,
+  makeSelectTopUpPageIsLoading, makeSelectTopUpPageMeta,
+} from 'containers/TopUpPage/selectors';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,14 +20,26 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  Dimmer,
+  Form,
+  Grid,
+  Header,
+  Icon,
+  Segment,
+} from 'semantic-ui-react';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import makeSelectTopUpPage from './selectors';
+
+const initialState = {
+  username: '',
+  amount: '',
+};
 
 /* eslint-disable react/prefer-stateless-function */
 export class TopUpPage extends React.Component {
-  state = { student: null };
+  state = initialState;
 
   processValue(name, value) {
     if (name === 'amount') {
@@ -33,19 +54,22 @@ export class TopUpPage extends React.Component {
   };
 
   handleSubmit = event => {
-    const { student, amount } = this.state;
+    const { username, amount } = this.state;
 
-    console.log(student, amount); // FIXME
+    this.props.topUp(username, amount);
     event.preventDefault();
   };
 
   render() {
-    const { student } = this.state;
+    const { loading } = this.props;
+    const { username, amount } = this.state;
     return (
       <div style={{ height: '100%' }}>
         <Helmet>
           <title>Rechargement</title>
         </Helmet>
+
+        {this.renderDimmer()}
 
         <Grid
           textAlign="center"
@@ -59,23 +83,26 @@ export class TopUpPage extends React.Component {
             <Form size="large" onSubmit={this.handleSubmit}>
               <Segment>
                 <UserSearchDropdown
-                  name="student"
+                  name="username"
                   onChange={this.handleInputChange}
-                  value={student}
+                  value={username}
                   fluid
                   placeholder="Étudiant"
+                  required
                 />
                 <Form.Input
                   name="amount"
                   onChange={this.handleInputChange}
+                  value={amount}
                   fluid
                   icon="dollar"
                   placeholder="Montant"
                   type="number"
                   step="0.01"
+                  required
                 />
 
-                <Button primary fluid size="large">
+                <Button primary fluid size="large" loading={loading}>
                   Recharger
                 </Button>
               </Segment>
@@ -85,19 +112,51 @@ export class TopUpPage extends React.Component {
       </div>
     );
   }
+
+  renderDimmer() {
+    const { isDimmed, meta } = this.props;
+
+    if (!isDimmed) {
+      return null;
+    }
+
+    return (
+      <Dimmer active onClickOutside={this.dimmerOnClickOutside} page>
+        <Header as="h2" icon inverted>
+          <Icon name="checkmark" />
+          Rechargement réussi
+          <Header.Subheader>
+            Ajout de <CurrencyFormat value={meta.amount} /> sur le compte "{meta.username}"
+          </Header.Subheader>
+        </Header>
+      </Dimmer>
+    );
+  }
+
+  dimmerOnClickOutside = () => {
+    this.props.closeSuccessDimmer();
+    this.setState(initialState);
+  };
 }
 
 TopUpPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  isDimmed: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  meta: PropTypes.object,
+  topUp: PropTypes.func.isRequired,
+  closeSuccessDimmer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  topUpPage: makeSelectTopUpPage(),
+  isDimmed: makeSelectTopUpPageIsDimmed(),
+  loading: makeSelectTopUpPageIsLoading(),
+  meta: makeSelectTopUpPageMeta(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    closeSuccessDimmer: () => dispatch(closeSuccessDimmerAction()),
+    topUp: (username, amount) => dispatch(topUpAction(username, amount)),
   };
 }
 

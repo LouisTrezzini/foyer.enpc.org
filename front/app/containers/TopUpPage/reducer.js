@@ -4,18 +4,23 @@
  *
  */
 
-import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { requestsReducer, success } from 'redux-saga-requests';
+import { CLOSE_SUCCESS_DIMMER, TOP_UP } from './constants';
 
-export const initialState = fromJS({});
+const baseRequestsReducer = requestsReducer({ actionType: TOP_UP });
 
-function topUpPageReducer(state = initialState, action) {
+const successDimmerReducer = (state = { isDimmed: false }, action) => {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case success(TOP_UP):
+      return { ...state, isDimmed: true, meta: action.meta };
+    case CLOSE_SUCCESS_DIMMER:
+      return { ...state, isDimmed: false, meta: undefined };
     default:
       return state;
   }
-}
+};
 
-export default topUpPageReducer;
+export default (state, action) => {
+  state = baseRequestsReducer(state, action);
+  return successDimmerReducer(state, action);
+};

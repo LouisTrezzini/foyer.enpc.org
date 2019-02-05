@@ -4,7 +4,7 @@
  *
  */
 
-import Avatar from 'components/Avatar';
+import ContainImage from 'components/ContainImage';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -62,7 +62,7 @@ export class DrinksPage extends React.Component {
   renderDrink(drink) {
     return (
       <Card key={drink.id}>
-        <Avatar size={150} src={drink.image_url} />
+        <ContainImage size={150} src={drink.image_url} />
         <Card.Content>
           <Card.Header>
             {drink.name} ({drink.price} €)

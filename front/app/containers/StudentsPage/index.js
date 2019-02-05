@@ -4,7 +4,7 @@
  *
  */
 
-import Avatar from 'components/Avatar';
+import ContainImage from 'components/ContainImage';
 import CurrencyFormat from 'components/CurrencyFormat';
 import TransactionsTable from 'components/TransactionsTable';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
@@ -66,7 +66,7 @@ export class StudentsPage extends React.Component {
     return (
       <Fragment>
         <Card centered>
-          <Avatar size={150} src={student.image_url} />
+          <ContainImage size={150} src={student.image_url} />
           <Card.Content>
             <Card.Header>{makeFullName(student)}</Card.Header>
           </Card.Content>

@@ -8,8 +8,46 @@ import CurrencyFormat from 'components/CurrencyFormat';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Header, Icon, Menu, Pagination, Table } from 'semantic-ui-react';
+import { Button, Pagination, Table } from 'semantic-ui-react';
+import styled from 'styled-components';
 import makeFullName from 'utils/makeFullName';
+
+const AvatarWrapper = styled.div`
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  border: 2px solid black;
+  height: 58px;
+  width: 58px;
+`;
+
+const UserHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+function Avatar({ src }) {
+  return (
+    <AvatarWrapper
+      style={{
+        backgroundImage: src
+          ? `url(https://upont.enpc.fr/api/${src})`
+          : undefined,
+      }}
+    />
+  );
+}
+
+function UserHeader({ user }) {
+  const fullName = makeFullName(user);
+  return (
+    <UserHeaderWrapper>
+      <Avatar src={user.image_url} />
+      <span style={{ margin: '.78571429em .78571429em' }}>{fullName}</span>
+    </UserHeaderWrapper>
+  );
+}
 
 /* eslint-disable react/prefer-stateless-function */
 class TransactionsTable extends React.Component {
@@ -50,23 +88,20 @@ class TransactionsTable extends React.Component {
   }
 
   renderTransaction(transaction) {
-    const fullName = makeFullName(transaction.user);
     return (
       <Table.Row key={transaction.id}>
-        <Table.Cell>
-          <Header
-            as="h4"
-            image={
-              transaction.user.image_url
-                ? `https://upont.enpc.fr/api/${transaction.user.image_url}`
-                : null
-            }
-            content={fullName}
-          />
+        <Table.Cell style={{ padding: '0 0 0 0' }}>
+          <UserHeader user={transaction.user} />
         </Table.Cell>
-        <Table.Cell>{transaction.beer ? transaction.beer.name : 'Rechargement'}</Table.Cell>
+        <Table.Cell>
+          {transaction.beer ? transaction.beer.name : 'Rechargement'}
+        </Table.Cell>
         <Table.Cell>{moment(transaction.date * 1000).format('lll')}</Table.Cell>
-        <Table.Cell collapsing negative={transaction.amount < 0} positive={transaction.amount > 0}>
+        <Table.Cell
+          collapsing
+          negative={transaction.amount < 0}
+          positive={transaction.amount > 0}
+        >
           <CurrencyFormat value={transaction.amount} />
         </Table.Cell>
         <Table.Cell collapsing>
@@ -83,7 +118,7 @@ class TransactionsTable extends React.Component {
 }
 
 TransactionsTable.propTypes = {
-  transactions: PropTypes.array.isRequired,
+  transactions: PropTypes.object.isRequired,
 };
 
 export default TransactionsTable;
