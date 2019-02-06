@@ -5,6 +5,7 @@
  */
 
 import CurrencyFormat from 'components/CurrencyFormat';
+import DeleteTransactionButton from 'containers/DeleteTransactionButton';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -109,7 +110,7 @@ class TransactionsTable extends React.Component {
             <Button icon="user" />
           </Button.Group>{' '}
           <Button.Group>
-            <Button icon="delete" negative />
+            <DeleteTransactionButton transaction={transaction} />
           </Button.Group>
         </Table.Cell>
       </Table.Row>

@@ -6,6 +6,7 @@ import { connectRouter } from 'connected-react-router/immutable';
 import appReducer from 'containers/App/reducers';
 import authReducer from 'containers/App/reducers/auth';
 import { combineReducers } from 'redux-immutable';
+import { reducer as thunkReducer } from 'redux-saga-thunk';
 
 import history from 'utils/history';
 
@@ -17,6 +18,7 @@ export default function createReducer(injectedReducers = {}) {
     app: appReducer,
     auth: authReducer,
     router: connectRouter(history),
+    thunk: thunkReducer,
     ...injectedReducers,
   });
 }
