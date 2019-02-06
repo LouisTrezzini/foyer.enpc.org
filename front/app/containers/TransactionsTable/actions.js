@@ -1,6 +1,6 @@
 /*
  *
- * DeleteTransactionButton actions
+ * TransactionsTable actions
  *
  */
 

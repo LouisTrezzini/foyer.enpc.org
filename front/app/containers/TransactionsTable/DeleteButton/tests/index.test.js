@@ -2,9 +2,9 @@
 // import { mount } from 'enzyme';
 // import { enzymeFind } from 'styled-components/test-utils';
 
-// import { DeleteTransactionButton } from '../index';
+// import { DeleteButton } from '../index';
 
-describe('<DeleteTransactionButton />', () => {
+describe('<DeleteButton />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

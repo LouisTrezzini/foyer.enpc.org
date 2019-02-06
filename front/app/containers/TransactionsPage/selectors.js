@@ -12,7 +12,7 @@ const selectTransactionsPageDomain = state => state.get('transactionsPage');
 const makeSelectTransactionsPageIsLoading = () =>
   createSelector(
     selectTransactionsPageDomain,
-    substate => substate.data === null || substate.pending > 0,
+    substate => substate.data === null,
   );
 
 const makeSelectTransactions = () =>

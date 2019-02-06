@@ -6,7 +6,7 @@
 
 import ContainImage from 'components/ContainImage';
 import CurrencyFormat from 'components/CurrencyFormat';
-import TransactionsTable from 'components/TransactionsTable';
+import TransactionsTable from 'containers/TransactionsTable';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
@@ -15,13 +15,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Card, Header, Icon, Loader } from 'semantic-ui-react';
+import { formatFullName } from 'utils/formatters';
 import injectReducer from 'utils/injectReducer';
-import makeFullName from 'utils/makeFullName';
 import { fetchStudentAction } from './actions';
 import reducer from './reducer';
 import {
   makeSelectStudentPageIsLoading,
-  makeSelectStudentPageStudent, makeSelectStudentPageTransactions,
+  makeSelectStudentPageStudent,
+  makeSelectStudentPageTransactions,
 } from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -68,7 +69,7 @@ export class StudentsPage extends React.Component {
         <Card centered>
           <ContainImage size={150} src={student.image_url} />
           <Card.Content>
-            <Card.Header>{makeFullName(student)}</Card.Header>
+            <Card.Header>{formatFullName(student)}</Card.Header>
           </Card.Content>
           <Card.Content extra>
             <Icon name="money bill alternate outline" />

@@ -4,7 +4,7 @@
  *
  */
 
-import TransactionsTable from 'components/TransactionsTable';
+import TransactionsTable from 'containers/TransactionsTable';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -27,7 +27,6 @@ export class TransactionsPage extends React.Component {
   }
 
   render() {
-    const { transactions } = this.props;
     return (
       <div>
         <Helmet>
@@ -48,7 +47,12 @@ export class TransactionsPage extends React.Component {
     }
 
     const { transactions } = this.props;
-    return <TransactionsTable transactions={transactions} />;
+    return (
+      <TransactionsTable
+        transactions={transactions}
+        fetchTransactions={this.props.fetchTransactions}
+      />
+    );
   }
 }
 
@@ -66,7 +70,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchTransactions: () => dispatch(fetchTransactionsAction()),
+    fetchTransactions: activePage =>
+      dispatch(fetchTransactionsAction(activePage)),
   };
 }
 

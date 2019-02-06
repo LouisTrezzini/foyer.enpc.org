@@ -14,7 +14,6 @@ const initialState = {
 };
 
 const getIn = (state, name, id) => {
-  console.log([state, name, id]);
   if (typeof name === 'undefined') {
     return !!find(state, value => !!value);
   }
