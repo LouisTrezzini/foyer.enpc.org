@@ -23,7 +23,7 @@ import {
 
 /* eslint-disable react/prefer-stateless-function */
 export class StatisticsPage extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchStatistics();
   }
 

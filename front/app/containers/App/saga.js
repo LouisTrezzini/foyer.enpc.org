@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { push } from 'connected-react-router';
 import { logoutAction } from 'containers/App/actions';
 import { makeSelectAuthToken } from 'containers/App/selectors/auth';
 import { createRequestInstance, watchRequests } from 'redux-saga-requests';
@@ -31,8 +32,14 @@ function* onRequestSaga(request) {
 }
 
 function* onErrorSaga(error) {
+  if (!error.response || error.response.status === 404 || error.response.status === 500) {
+    yield put(push('/error'));
+    return { error };
+  }
+
   if (error.response.status === 401) {
     yield put(logoutAction());
+    return { error };
   }
 
   // not related token error, we pass it like nothing happened

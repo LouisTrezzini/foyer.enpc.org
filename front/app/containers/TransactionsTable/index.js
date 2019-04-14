@@ -5,13 +5,15 @@
  */
 
 import CurrencyFormat from 'components/CurrencyFormat';
+import PaginatedTable from 'components/PaginatedTable';
 import { deleteTransactionAction } from 'containers/TransactionsTable/actions';
 import DeleteButton from 'containers/TransactionsTable/DeleteButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { compose } from 'redux';
-import { Button, Pagination, Table } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { formatBeerName, formatDate, formatFullName } from 'utils/formatters';
 
@@ -54,60 +56,32 @@ function UserHeader({ user }) {
 
 /* eslint-disable react/prefer-stateless-function */
 class TransactionsTable extends React.Component {
-  handlePaginationChange = (event, data) => {
-    const { fetchTransactions } = this.props;
-
-    if (!fetchTransactions) {
-      return;
-    }
-    const { activePage } = data;
-    fetchTransactions(activePage);
-  };
-
   render() {
     const { transactions } = this.props;
-    const {
-      current_page: activePage,
-      total_pages: totalPages,
-    } = transactions.pagination_infos;
 
     return (
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Étudiant</Table.HeaderCell>
-            <Table.HeaderCell>Boisson</Table.HeaderCell>
-            <Table.HeaderCell>Date</Table.HeaderCell>
-            <Table.HeaderCell>Valeur</Table.HeaderCell>
-            <Table.HeaderCell>Actions</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {transactions.data.map(transaction =>
-            this.renderTransaction(transaction),
-          )}
-        </Table.Body>
-
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan="5">
-              <Pagination
-                floated="right"
-                activePage={activePage}
-                onPageChange={this.handlePaginationChange}
-                totalPages={totalPages}
-                prevItem={null}
-                nextItem={null}
-              />
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table>
+      <PaginatedTable
+        rows={transactions.data}
+        renderHeader={this.renderHeader}
+        renderRow={this.renderTransaction}
+        paginationInfos={transactions.pagination_infos}
+      />
     );
   }
 
-  renderTransaction(transaction) {
+  renderHeader = () => {
+    return (
+      <Table.Row>
+        <Table.HeaderCell>Étudiant</Table.HeaderCell>
+        <Table.HeaderCell>Boisson</Table.HeaderCell>
+        <Table.HeaderCell>Date</Table.HeaderCell>
+        <Table.HeaderCell>Valeur</Table.HeaderCell>
+        <Table.HeaderCell>Actions</Table.HeaderCell>
+      </Table.Row>
+    );
+  };
+
+  renderTransaction = transaction => {
     const { deleteTransaction } = this.props;
     return (
       <Table.Row key={transaction.id}>
@@ -125,7 +99,11 @@ class TransactionsTable extends React.Component {
         </Table.Cell>
         <Table.Cell collapsing>
           <Button.Group>
-            <Button icon="user" />
+            <Button
+              icon="user"
+              as={Link}
+              to={`/students/${transaction.user.username}`}
+            />
           </Button.Group>{' '}
           <Button.Group>
             <DeleteButton
@@ -136,7 +114,7 @@ class TransactionsTable extends React.Component {
         </Table.Cell>
       </Table.Row>
     );
-  }
+  };
 }
 
 TransactionsTable.propTypes = {

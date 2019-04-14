@@ -22,7 +22,7 @@ import {
 
 /* eslint-disable react/prefer-stateless-function */
 export class TransactionsPage extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchTransactions();
   }
 
@@ -58,7 +58,7 @@ export class TransactionsPage extends React.Component {
 
 TransactionsPage.propTypes = {
   loading: PropTypes.bool.isRequired,
-  transactions: PropTypes.array,
+  transactions: PropTypes.object,
 
   fetchTransactions: PropTypes.func.isRequired,
 };

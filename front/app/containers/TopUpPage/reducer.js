@@ -21,6 +21,6 @@ const successDimmerReducer = (state = { isDimmed: false }, action) => {
 };
 
 export default (state, action) => {
-  state = baseRequestsReducer(state, action);
-  return successDimmerReducer(state, action);
+  const baseState = baseRequestsReducer(state, action);
+  return successDimmerReducer(baseState, action);
 };

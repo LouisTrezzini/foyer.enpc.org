@@ -4,7 +4,7 @@
  *
  */
 
-import { FETCH_STUDENT } from './constants';
+import { FETCH_STUDENT, RESET_STUDENT } from './constants';
 
 export function fetchStudentAction(username) {
   return {
@@ -24,5 +24,11 @@ export function fetchStudentAction(username) {
         },
       ],
     },
+  };
+}
+
+export function resetStudentAction() {
+  return {
+    type: RESET_STUDENT,
   };
 }

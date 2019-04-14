@@ -6,6 +6,7 @@
 
 import ContainImage from 'components/ContainImage';
 import CurrencyFormat from 'components/CurrencyFormat';
+import { push } from 'connected-react-router';
 import TransactionsTable from 'containers/TransactionsTable';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
 import PropTypes from 'prop-types';
@@ -17,7 +18,7 @@ import { createStructuredSelector } from 'reselect';
 import { Card, Header, Icon, Loader } from 'semantic-ui-react';
 import { formatFullName } from 'utils/formatters';
 import injectReducer from 'utils/injectReducer';
-import { fetchStudentAction } from './actions';
+import { fetchStudentAction, resetStudentAction } from './actions';
 import reducer from './reducer';
 import {
   makeSelectStudentPageIsLoading,
@@ -27,8 +28,33 @@ import {
 
 /* eslint-disable react/prefer-stateless-function */
 export class StudentsPage extends React.Component {
+  componentDidMount() {
+    const { username } = this.props.match.params;
+
+    if (username) {
+      this.props.fetchStudent(username);
+    } else {
+      this.props.resetStudent();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { username: prevUsername } = prevProps.match.params;
+    const { username } = this.props.match.params;
+
+    if (username === prevUsername) {
+      return;
+    }
+
+    if (username) {
+      this.props.fetchStudent(username);
+    } else {
+      this.props.resetStudent();
+    }
+  }
+
   handleStudentChange = (e, { value: username }) => {
-    this.props.fetchStudent(username);
+    this.props.switchStudent(username);
   };
 
   render() {
@@ -87,9 +113,12 @@ export class StudentsPage extends React.Component {
 
 StudentsPage.propTypes = {
   loading: PropTypes.bool.isRequired,
+  match: PropTypes.object,
   student: PropTypes.object,
   transactions: PropTypes.object,
+  switchStudent: PropTypes.func.isRequired,
   fetchStudent: PropTypes.func.isRequired,
+  resetStudent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -100,7 +129,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    switchStudent: username => dispatch(push(`/students/${username}`)),
     fetchStudent: username => dispatch(fetchStudentAction(username)),
+    resetStudent: () => dispatch(resetStudentAction()),
   };
 }
 

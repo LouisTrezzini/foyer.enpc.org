@@ -61,8 +61,6 @@ export class TopUpPage extends React.Component {
   };
 
   render() {
-    const { loading } = this.props;
-    const { username, amount } = this.state;
     return (
       <div style={{ height: '100%' }}>
         <Helmet>
@@ -71,45 +69,55 @@ export class TopUpPage extends React.Component {
 
         {this.renderDimmer()}
 
-        <Grid
-          textAlign="center"
-          style={{ height: '100%' }}
-          verticalAlign="middle"
-        >
-          <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" textAlign="center">
-              Recharger un compte Foyer
-            </Header>
-            <Form size="large" onSubmit={this.handleSubmit}>
-              <Segment>
-                <UserSearchDropdown
-                  name="username"
-                  onChange={this.handleInputChange}
-                  value={username}
-                  fluid
-                  placeholder="Étudiant"
-                  required
-                />
-                <Form.Input
-                  name="amount"
-                  onChange={this.handleInputChange}
-                  value={amount}
-                  fluid
-                  icon="dollar"
-                  placeholder="Montant"
-                  type="number"
-                  step="0.01"
-                  required
-                />
-
-                <Button primary fluid size="large" loading={loading}>
-                  Recharger
-                </Button>
-              </Segment>
-            </Form>
-          </Grid.Column>
-        </Grid>
+        {this.renderForm()}
       </div>
+    );
+  }
+
+  renderForm() {
+    const { loading } = this.props;
+    const { username, amount } = this.state;
+
+    return (
+      <Grid
+        textAlign="center"
+        style={{ height: '100%' }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as="h2" textAlign="center">
+            Recharger un compte Foyer
+          </Header>
+          <Form size="large" onSubmit={this.handleSubmit}>
+            <Segment>
+              <UserSearchDropdown
+                name="username"
+                onChange={this.handleInputChange}
+                value={username}
+                fluid
+                placeholder="Étudiant"
+                required
+              />
+              <Form.Input
+                name="amount"
+                onChange={this.handleInputChange}
+                value={amount}
+                fluid
+                icon="euro"
+                iconPosition="left"
+                placeholder="Montant"
+                type="number"
+                step="0.01"
+                required
+              />
+
+              <Button primary fluid size="large" loading={loading}>
+                Recharger
+              </Button>
+            </Segment>
+          </Form>
+        </Grid.Column>
+      </Grid>
     );
   }
 

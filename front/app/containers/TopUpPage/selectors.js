@@ -19,7 +19,7 @@ const makeSelectTopUpPageIsLoading = () =>
 const makeSelectTopUpPageIsDimmed = () =>
   createSelector(
     selectTopUpPageDomain,
-    substate => substate.isDimmed,
+    substate => substate.isDimmed || false,
   );
 
 const makeSelectTopUpPageMeta = () =>

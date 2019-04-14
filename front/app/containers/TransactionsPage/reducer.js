@@ -11,12 +11,13 @@ import { FETCH_TRANSACTIONS } from './constants';
 
 const transactionsPageReducer = (state, action) => {
   switch (action.type) {
-    case success(DELETE_TRANSACTION):
+    case success(DELETE_TRANSACTION): {
       const newData = cloneDeep(state.data);
       newData.data = newData.data.filter(
         transaction => transaction.id !== action.meta.transactionId,
       );
       return { ...state, data: newData };
+    }
     default:
       return state;
   }

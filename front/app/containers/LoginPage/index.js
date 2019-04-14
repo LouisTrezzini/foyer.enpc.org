@@ -60,6 +60,7 @@ export class LoginPage extends React.Component {
                   onChange={this.handleInputChange}
                   fluid
                   icon="user"
+                  iconPosition="left"
                   placeholder="Username"
                   required
                 />
@@ -68,6 +69,7 @@ export class LoginPage extends React.Component {
                   onChange={this.handleInputChange}
                   fluid
                   icon="lock"
+                  iconPosition="left"
                   placeholder="Mot de passe"
                   type="password"
                   required

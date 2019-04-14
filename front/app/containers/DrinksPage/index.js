@@ -5,10 +5,12 @@
  */
 
 import ContainImage from 'components/ContainImage';
+import HoverDimmer from 'components/HoverDimmer';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { Button, Card, Grid, Header, Loader } from 'semantic-ui-react';
@@ -19,7 +21,7 @@ import { makeSelectDrinks, makeSelectDrinksPageIsLoading } from './selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class DrinksPage extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchDrinks();
   }
 
@@ -31,7 +33,7 @@ export class DrinksPage extends React.Component {
         </Helmet>
 
         <Grid>
-          <Grid.Column floated="left" width={4}>
+          <Grid.Column floated="left" width={6}>
             <Header as="h2">Boissons</Header>
           </Grid.Column>
           <Grid.Column floated="right" width={4}>
@@ -60,9 +62,21 @@ export class DrinksPage extends React.Component {
   }
 
   renderDrink(drink) {
+    const dimmedContent = <ContainImage size={150} src={drink.image_url} />;
+    const dimmerContent = (
+      <div>
+        <Button primary as={Link} to={`/drinks/${drink.slug}/edit`}>
+          Modifier
+        </Button>
+      </div>
+    );
+
     return (
       <Card key={drink.id}>
-        <ContainImage size={150} src={drink.image_url} />
+        <HoverDimmer
+          dimmerContent={dimmerContent}
+          dimmedContent={dimmedContent}
+        />
         <Card.Content>
           <Card.Header>
             {drink.name} ({drink.price} €)

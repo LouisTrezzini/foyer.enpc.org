@@ -8,6 +8,7 @@
  */
 
 import DrinksPage from 'containers/DrinksPage/Loadable';
+import DrinkEditPage from 'containers/DrinkEditPage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -47,10 +48,12 @@ const App = () => (
 
             <Route exact path="/top-up" component={TopUpPage} />
             <Route exact path="/drinks" component={DrinksPage} />
+            <Route exact path="/drinks/:drinkId/edit" component={DrinkEditPage} />
             <Route exact path="/statistics" component={StatisticsPage} />
 
             <Route exact path="/transactions" component={TransactionsPage} />
             <Route exact path="/students" component={StudentPage} />
+            <Route exact path="/students/:username" component={StudentPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </AppLayout>
