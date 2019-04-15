@@ -17,16 +17,16 @@ const makeSelectCheckoutPageIsLoading = () =>
     substate => isEmpty(substate.data) || substate.pending > 0,
   );
 
-const makeSelectCheckoutPageRecentTransactions = () =>
-  createSelector(
-    selectCheckoutPageDomain,
-    substate => (isEmpty(substate.data) ? [] : substate.data[0].data),
-  );
-
 const makeSelectCheckoutPageRecentDrinks = () =>
   createSelector(
     selectCheckoutPageDomain,
-    substate => (isEmpty(substate.data) ? [] : substate.data[1]),
+    substate => (isEmpty(substate.data) ? [] : substate.data[0]),
+  );
+
+const makeSelectCheckoutPageRecentTransactions = () =>
+  createSelector(
+    selectCheckoutPageDomain,
+    substate => (isEmpty(substate.data) ? [] : substate.data[1].data),
   );
 
 const makeSelectCheckoutPageSelectedStudent = () =>
@@ -35,9 +35,16 @@ const makeSelectCheckoutPageSelectedStudent = () =>
     substate => substate.selectedStudent,
   );
 
+const makeSelectCheckoutPageSelectedDrinks = () =>
+  createSelector(
+    selectCheckoutPageDomain,
+    substate => substate.selectedDrinks,
+  );
+
 export {
   makeSelectCheckoutPageIsLoading,
   makeSelectCheckoutPageRecentTransactions,
   makeSelectCheckoutPageRecentDrinks,
   makeSelectCheckoutPageSelectedStudent,
+  makeSelectCheckoutPageSelectedDrinks,
 };

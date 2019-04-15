@@ -4,8 +4,8 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
 
 const ContainImageWrapper = styled.div`
@@ -20,7 +20,10 @@ function ContainImage({ size, src }) {
       style={{
         height: size,
         backgroundImage: src
-          ? `url(https://upont.enpc.fr/api/${src})`
+          ? `url(https://upont.enpc.fr/api/${src.replace(
+              'images',
+              'thumbnails',
+            )})`
           : undefined,
       }}
     />

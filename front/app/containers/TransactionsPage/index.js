@@ -41,8 +41,8 @@ export class TransactionsPage extends React.Component {
   }
 
   renderTransactions() {
-    const { loading } = this.props;
-    if (loading) {
+    const { isLoading } = this.props;
+    if (isLoading) {
       return <Loader active />;
     }
 
@@ -57,14 +57,14 @@ export class TransactionsPage extends React.Component {
 }
 
 TransactionsPage.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   transactions: PropTypes.object,
 
   fetchTransactions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectTransactionsPageIsLoading(),
+  isLoading: makeSelectTransactionsPageIsLoading(),
   transactions: makeSelectTransactions(),
 });
 

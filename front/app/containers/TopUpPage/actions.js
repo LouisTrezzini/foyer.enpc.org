@@ -4,7 +4,7 @@
  *
  */
 
-import { CLOSE_SUCCESS_DIMMER, TOP_UP } from './constants';
+import { CLOSE_SUCCESS_DIMMER, OPEN_SUCCESS_DIMMER, TOP_UP } from './constants';
 
 export function topUpAction(username, amount) {
   return {
@@ -23,6 +23,13 @@ export function topUpAction(username, amount) {
       username,
       amount,
     },
+  };
+}
+
+export function openSuccessDimmerAction(meta) {
+  return {
+    type: OPEN_SUCCESS_DIMMER,
+    meta,
   };
 }
 

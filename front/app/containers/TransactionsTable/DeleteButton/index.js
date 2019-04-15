@@ -58,12 +58,12 @@ export class DeleteButton extends React.Component {
   }
 
   renderButton() {
-    const { loading } = this.props;
+    const { isLoading } = this.props;
     return (
       <Button
         icon="trash"
         negative
-        loading={loading}
+        loading={isLoading}
         onClick={this.handleOpen}
       />
     );
@@ -71,7 +71,7 @@ export class DeleteButton extends React.Component {
 }
 
 DeleteButton.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   transaction: PropTypes.object.isRequired,
   deleteTransaction: PropTypes.func.isRequired,
 };

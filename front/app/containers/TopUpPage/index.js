@@ -31,7 +31,9 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
+import saga from './saga';
 
 const initialState = {
   username: '',
@@ -81,7 +83,7 @@ export class TopUpPage extends React.Component {
   }
 
   renderForm() {
-    const { loading } = this.props;
+    const { isLoading } = this.props;
     const { username, amount } = this.state;
 
     return (
@@ -117,7 +119,7 @@ export class TopUpPage extends React.Component {
                 required
               />
 
-              <Button primary fluid size="large" loading={loading}>
+              <Button primary fluid size="large" loading={isLoading}>
                 Recharger
               </Button>
             </Segment>
@@ -156,7 +158,7 @@ export class TopUpPage extends React.Component {
 
 TopUpPage.propTypes = {
   isDimmed: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   meta: PropTypes.object,
   topUp: PropTypes.func.isRequired,
   closeSuccessDimmer: PropTypes.func.isRequired,
@@ -164,7 +166,7 @@ TopUpPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   isDimmed: makeSelectTopUpPageIsDimmed(),
-  loading: makeSelectTopUpPageIsLoading(),
+  isLoading: makeSelectTopUpPageIsLoading(),
   meta: makeSelectTopUpPageMeta(),
 });
 
@@ -182,7 +184,10 @@ const withConnect = connect(
 
 const withReducer = injectReducer({ key: 'topUpPage', reducer });
 
+const withSaga = injectSaga({ key: 'topUpPage', saga });
+
 export default compose(
   withReducer,
+  withSaga,
   withConnect,
 )(TopUpPage);
