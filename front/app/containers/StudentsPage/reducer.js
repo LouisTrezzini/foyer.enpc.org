@@ -6,26 +6,24 @@
 
 import { DELETE_TRANSACTION } from 'containers/TransactionsTable/constants';
 import { cloneDeep } from 'lodash';
-import { requestsReducer, success } from 'redux-saga-requests';
-import { FETCH_STUDENT, RESET_STUDENT } from './constants';
+import { requestsReducer } from 'redux-saga-requests';
+import { FETCH_STUDENT_WITH_TRANSACTIONS, RESET_STUDENT } from './constants';
 
-const studentsPageReducer = (state, action) => {
-  switch (action.type) {
-    case RESET_STUDENT:
-      return { ...state, data: null };
-    case success(DELETE_TRANSACTION): {
-      const newData = cloneDeep(state.data);
-      newData[1].data = newData[1].data.filter(
-        transaction => transaction.id !== action.meta.transactionId,
-      );
-      return { ...state, data: newData };
-    }
-    default:
-      return state;
-  }
-};
-
-export default requestsReducer(
-  { actionType: FETCH_STUDENT },
-  studentsPageReducer,
-);
+export default requestsReducer({
+  actionType: FETCH_STUDENT_WITH_TRANSACTIONS,
+  operations: {
+    [RESET_STUDENT]: () => null,
+    [DELETE_TRANSACTION]: {
+      updateData: (state, action) => {
+        const newData = cloneDeep(state.data);
+        if (newData) {
+          newData.data = newData.data.filter(
+            transaction => transaction.id !== action.meta.transactionId,
+          );
+        }
+        return newData;
+      },
+      getRequestKey: requestAction => String(requestAction.meta.transactionId), // you need to use string if id is an integer
+    },
+  },
+});

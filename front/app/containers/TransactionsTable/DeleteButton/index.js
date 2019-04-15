@@ -41,8 +41,8 @@ export class DeleteButton extends React.Component {
 
           <ul>
             <li>Étudiant : {formatFullName(transaction.user)}</li>
+            <li>Type : {formatBeerName(transaction.beer)}</li>
             <li>Date : {formatDate(transaction.date)} </li>
-            <li>Boisson : {formatBeerName(transaction.beer)}</li>
           </ul>
         </Modal.Content>
         <Modal.Actions>
@@ -78,7 +78,7 @@ DeleteButton.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    loading: pending(state, DELETE_TRANSACTION, ownProps.transaction.id),
+    isLoading: pending(state, DELETE_TRANSACTION, ownProps.transaction.id),
   };
 }
 

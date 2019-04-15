@@ -11,7 +11,8 @@ import {
 } from 'containers/TopUpPage/actions';
 import {
   makeSelectTopUpPageIsDimmed,
-  makeSelectTopUpPageIsLoading, makeSelectTopUpPageMeta,
+  makeSelectTopUpPageIsLoading,
+  makeSelectTopUpPageMeta,
 } from 'containers/TopUpPage/selectors';
 import UserSearchDropdown from 'containers/UserSearchDropdown';
 import PropTypes from 'prop-types';
@@ -55,6 +56,11 @@ export class TopUpPage extends React.Component {
 
   handleSubmit = event => {
     const { username, amount } = this.state;
+
+    if (!username || !amount) {
+      // FIXME display error
+      return;
+    }
 
     this.props.topUp(username, amount);
     event.preventDefault();
@@ -134,7 +140,8 @@ export class TopUpPage extends React.Component {
           <Icon name="checkmark" />
           Rechargement réussi
           <Header.Subheader>
-            Ajout de <CurrencyFormat value={meta.amount} /> sur le compte "{meta.username}"
+            Ajout de <CurrencyFormat value={meta.amount} /> sur le compte "
+            {meta.username}"
           </Header.Subheader>
         </Header>
       </Dimmer>

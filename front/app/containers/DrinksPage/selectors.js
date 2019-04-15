@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 /**
@@ -13,7 +14,7 @@ const selectDrinksPageDomain = state => state.get('drinksPage');
 const makeSelectDrinksPageIsLoading = () =>
   createSelector(
     selectDrinksPageDomain,
-    substate => substate.data === null || substate.pending > 0,
+    substate => isEmpty(substate.data) || substate.pending > 0,
   );
 
 const makeSelectDrinks = () =>

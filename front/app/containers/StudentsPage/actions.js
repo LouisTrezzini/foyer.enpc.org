@@ -4,14 +4,11 @@
  *
  */
 
-import { FETCH_STUDENT, RESET_STUDENT } from './constants';
+import { FETCH_STUDENT_WITH_TRANSACTIONS, RESET_STUDENT } from './constants';
 
-export function fetchStudentAction(username) {
+export function fetchStudentWithTransactionsAction(username) {
   return {
-    type: FETCH_STUDENT,
-    meta: {
-      username,
-    },
+    type: FETCH_STUDENT_WITH_TRANSACTIONS,
     payload: {
       request: [
         {

@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 /**
@@ -17,34 +18,40 @@ const selectStatisticsPageDomain = state => state.get('statisticsPage');
 const makeSelectStatisticsPageIsLoading = () =>
   createSelector(
     selectStatisticsPageDomain,
-    substate => substate.data === null || substate.pending > 0,
+    substate => isEmpty(substate.data) || substate.pending > 0,
   );
 
 const makeSelectStatisticsPromoBalances = () =>
-  createSelector(selectStatisticsPageDomain, substate => {
-    if (!substate.data) {
-      return null;
-    }
-    const stats = substate.data.promoBalances;
-    if (!stats) {
-      return null;
-    }
+  createSelector(
+    selectStatisticsPageDomain,
+    substate => {
+      if (!substate.data) {
+        return null;
+      }
+      const stats = substate.data.promoBalances;
+      if (!stats) {
+        return null;
+      }
 
-    return stats.labels.map((e, i) => ({ promo: e, balance: stats.data[i] }));
-  });
+      return stats.labels.map((e, i) => ({ promo: e, balance: stats.data[i] }));
+    },
+  );
 
 const makeSelectStatisticsSoldDrinks = () =>
-  createSelector(selectStatisticsPageDomain, substate => {
-    if (!substate.data) {
-      return null;
-    }
-    const stats = substate.data.soldBeers;
-    if (!stats) {
-      return null;
-    }
+  createSelector(
+    selectStatisticsPageDomain,
+    substate => {
+      if (!substate.data) {
+        return null;
+      }
+      const stats = substate.data.soldBeers;
+      if (!stats) {
+        return null;
+      }
 
-    return stats.labels.map((e, i) => ({ drink: e, count: +stats.data[i] }));
-  });
+      return stats.labels.map((e, i) => ({ drink: e, count: +stats.data[i] }));
+    },
+  );
 
 export {
   makeSelectStatisticsPageIsLoading,

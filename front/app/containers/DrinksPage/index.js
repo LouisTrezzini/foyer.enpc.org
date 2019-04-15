@@ -5,6 +5,7 @@
  */
 
 import ContainImage from 'components/ContainImage';
+import CurrencyFormat from 'components/CurrencyFormat';
 import HoverDimmer from 'components/HoverDimmer';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -49,14 +50,14 @@ export class DrinksPage extends React.Component {
   }
 
   renderDrinks() {
-    const { loading } = this.props;
-    if (loading) {
+    const { isLoading, drinks } = this.props;
+    if (isLoading) {
       return <Loader active />;
     }
 
     return (
       <Card.Group itemsPerRow={4} stackable doubling>
-        {this.props.drinks.map(drink => this.renderDrink(drink))}
+        {drinks.map(drink => this.renderDrink(drink))}
       </Card.Group>
     );
   }
@@ -79,7 +80,7 @@ export class DrinksPage extends React.Component {
         />
         <Card.Content>
           <Card.Header>
-            {drink.name} ({drink.price} €)
+            {drink.name} (<CurrencyFormat value={drink.price} />)
           </Card.Header>
           <Card.Meta>
             Volume : {drink.volume} L / Alcool : {drink.alcohol} °
@@ -91,13 +92,13 @@ export class DrinksPage extends React.Component {
 }
 
 DrinksPage.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   drinks: PropTypes.array,
   fetchDrinks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectDrinksPageIsLoading(),
+  isLoading: makeSelectDrinksPageIsLoading(),
   drinks: makeSelectDrinks(),
 });
 

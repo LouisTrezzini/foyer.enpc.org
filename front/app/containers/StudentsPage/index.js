@@ -18,7 +18,10 @@ import { createStructuredSelector } from 'reselect';
 import { Card, Header, Icon, Loader } from 'semantic-ui-react';
 import { formatFullName } from 'utils/formatters';
 import injectReducer from 'utils/injectReducer';
-import { fetchStudentAction, resetStudentAction } from './actions';
+import {
+  fetchStudentWithTransactionsAction,
+  resetStudentAction,
+} from './actions';
 import reducer from './reducer';
 import {
   makeSelectStudentPageIsLoading,
@@ -130,7 +133,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     switchStudent: username => dispatch(push(`/students/${username}`)),
-    fetchStudent: username => dispatch(fetchStudentAction(username)),
+    fetchStudent: username =>
+      dispatch(fetchStudentWithTransactionsAction(username)),
     resetStudent: () => dispatch(resetStudentAction()),
   };
 }

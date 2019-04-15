@@ -35,7 +35,7 @@ function AppLayout(props) {
             Foyer
           </Menu.Item>
 
-          <Menu.Item as={Link} to="/billing">
+          <Menu.Item as={Link} to="/checkout">
             <Icon name="shop" /> Encaissement
           </Menu.Item>
 

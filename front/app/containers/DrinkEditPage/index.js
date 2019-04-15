@@ -95,8 +95,8 @@ export class DrinkEditPage extends React.Component {
   }
 
   renderDrinkEditForm() {
-    const { loading } = this.props;
-    if (loading) {
+    const { isLoading } = this.props;
+    if (isLoading) {
       return <Loader active />;
     }
 
@@ -108,7 +108,7 @@ export class DrinkEditPage extends React.Component {
         <Segment.Group>
           <Segment>
             <Grid>
-              <Grid.Column floated="left" width={12}>
+              <Grid.Column width={12}>
                 <Form.Input
                   label="Nom"
                   name="name"
@@ -161,14 +161,14 @@ export class DrinkEditPage extends React.Component {
                   required
                 />
               </Grid.Column>
-              <Grid.Column floated="right" width={4} verticalAlign="middle">
+              <Grid.Column width={4} verticalAlign="middle">
                 <ContainImage size={150} src={drink.image_url} />
               </Grid.Column>
             </Grid>
           </Segment>
 
           <Segment>
-            <Button primary fluid loading={loading}>
+            <Button primary fluid loading={isLoading}>
               Sauvegarder
             </Button>
           </Segment>
@@ -179,14 +179,14 @@ export class DrinkEditPage extends React.Component {
 }
 
 DrinkEditPage.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
   drink: PropTypes.object,
   fetchDrink: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectDrinkEditPageIsLoading(),
+  isLoading: makeSelectDrinkEditPageIsLoading(),
   drink: makeSelectDrinkEdit(),
 });
 

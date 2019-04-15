@@ -7,8 +7,9 @@
  *
  */
 
-import DrinksPage from 'containers/DrinksPage/Loadable';
+import CheckoutPage from 'containers/CheckoutPage/Loadable';
 import DrinkEditPage from 'containers/DrinkEditPage/Loadable';
+import DrinksPage from 'containers/DrinksPage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -46,11 +47,16 @@ const App = () => (
           <Switch>
             <Route exact path="/" component={HomePage} />
 
+            <Route exact path="/checkout" component={CheckoutPage} />
             <Route exact path="/top-up" component={TopUpPage} />
-            <Route exact path="/drinks" component={DrinksPage} />
-            <Route exact path="/drinks/:drinkId/edit" component={DrinkEditPage} />
             <Route exact path="/statistics" component={StatisticsPage} />
 
+            <Route exact path="/drinks" component={DrinksPage} />
+            <Route
+              exact
+              path="/drinks/:drinkId/edit"
+              component={DrinkEditPage}
+            />
             <Route exact path="/transactions" component={TransactionsPage} />
             <Route exact path="/students" component={StudentPage} />
             <Route exact path="/students/:username" component={StudentPage} />

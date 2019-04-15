@@ -73,7 +73,7 @@ class TransactionsTable extends React.Component {
     return (
       <Table.Row>
         <Table.HeaderCell>Étudiant</Table.HeaderCell>
-        <Table.HeaderCell>Boisson</Table.HeaderCell>
+        <Table.HeaderCell>Type</Table.HeaderCell>
         <Table.HeaderCell>Date</Table.HeaderCell>
         <Table.HeaderCell>Valeur</Table.HeaderCell>
         <Table.HeaderCell>Actions</Table.HeaderCell>

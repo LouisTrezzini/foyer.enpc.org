@@ -4,6 +4,7 @@
  *
  */
 
+import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Pagination, Table } from 'semantic-ui-react';
@@ -23,11 +24,24 @@ class PaginatedTable extends React.Component {
   render() {
     const { rows, renderHeader, renderRow } = this.props;
 
+    let bodyContent;
+    if (!isEmpty(rows)) {
+      bodyContent = rows.map(row => renderRow(row));
+    } else {
+      bodyContent = (
+        <Table.Row>
+          <Table.Cell colSpan="5" textAlign="center">
+            Pas de résultats
+          </Table.Cell>
+        </Table.Row>
+      );
+    }
+
     return (
       <Table celled>
         <Table.Header>{renderHeader()}</Table.Header>
 
-        <Table.Body>{rows.map(row => renderRow(row))}</Table.Body>
+        <Table.Body>{bodyContent}</Table.Body>
 
         {this.renderFooter()}
       </Table>
