@@ -85,6 +85,7 @@
     "react-router-dom": "4.3.1",
     "redux": "4.0.1",
     "redux-immutable": "4.0.0",
+    "redux-responsive": "^4.3.8",
     "redux-saga": "0.16.2",
     "redux-saga-requests": "^0.22.1",
     "redux-saga-requests-axios": "^0.7.6",

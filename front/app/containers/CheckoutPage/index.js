@@ -106,9 +106,9 @@ export class CheckoutPage extends React.Component {
           <title>Encaissement</title>
         </Helmet>
 
-        <Grid>
+        <Grid stackble>
           <Grid.Row>
-            <Grid.Column floated="left" width={6}>
+            <Grid.Column floated="left" computer={8}>
               <Header as="h2">Encaissement</Header>
             </Grid.Column>
           </Grid.Row>
@@ -126,8 +126,10 @@ export class CheckoutPage extends React.Component {
 
     return (
       <Grid.Row>
-        <Grid.Column width={11}>{this.renderCheckoutForm()}</Grid.Column>
-        <Grid.Column width={5}>
+        <Grid.Column mobile={16} computer={11}>
+          {this.renderCheckoutForm()}
+        </Grid.Column>
+        <Grid.Column mobile={16} computer={5}>
           {this.renderRecentTransactionsTable()}
         </Grid.Column>
       </Grid.Row>
@@ -150,16 +152,18 @@ export class CheckoutPage extends React.Component {
       ? selectedStudent.balance - totalCost <= 0
       : false;
 
+    const isMobile = false; // FIXME
+
     return (
       <Form size="large">
         <Segment.Group>
           <Segment>
             <Grid padded style={{ minHeight: 164 }}>
-              <Grid.Column width={4} verticalAlign="middle">
+              <Grid.Column mobile={16} computer={4} verticalAlign="middle">
                 {this.renderStudent(selectedStudent)}
               </Grid.Column>
-              <Grid.Column width={12}>
-                <Grid columns={3} stackable>
+              <Grid.Column mobile={16} computer={12}>
+                <Grid columns={isMobile ? 2 : 3}>
                   {selectedDrinks.map((drink, index) => (
                     <Grid.Column>{this.renderDrink(drink, index)}</Grid.Column>
                   ))}
@@ -198,10 +202,10 @@ export class CheckoutPage extends React.Component {
         <Divider hidden />
 
         <Grid>
-          <Grid.Column floated="left" width={4}>
+          <Grid.Column floated="left" mobile={16} computer={4}>
             <Header>Boissons</Header>
           </Grid.Column>
-          <Grid.Column floated="right" width={8}>
+          <Grid.Column floated="right" mobile={16} computer={8}>
             <Input
               fluid
               size="mini"
@@ -212,11 +216,13 @@ export class CheckoutPage extends React.Component {
           </Grid.Column>
         </Grid>
 
-        <Grid columns={4} stackable>
+        <Grid columns={isMobile ? 2 : 4}>
           {this.filteredDrinks.map(drink => (
             <Grid.Column>{this.renderDrink(drink)}</Grid.Column>
           ))}
         </Grid>
+
+        {isMobile ? <Divider hidden /> : null}
       </Form>
     );
   }
@@ -258,6 +264,7 @@ export class CheckoutPage extends React.Component {
           display: 'block',
           width: 120,
           padding: '0 0 1em 0',
+          margin: '0 auto',
         }}
       >
         <ContainImage size={120} src={student.image_url} />
@@ -276,7 +283,7 @@ export class CheckoutPage extends React.Component {
     const { recentTransactions } = this.props;
 
     return (
-      <Table celled striped>
+      <Table celled striped unstackable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell colSpan={2}>

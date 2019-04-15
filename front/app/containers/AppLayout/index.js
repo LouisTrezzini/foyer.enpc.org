@@ -28,6 +28,7 @@ function AppLayout(props) {
   const { logout } = props;
   return (
     <Fragment>
+      {/* FIXME */}
       <Menu fixed="top" stackable>
         <Container>
           <Menu.Item as={Link} header to="/">
@@ -89,6 +90,7 @@ function AppLayout(props) {
 
 AppLayout.propTypes = {
   logout: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
