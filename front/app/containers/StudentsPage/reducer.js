@@ -15,13 +15,14 @@ export default requestsReducer({
     [RESET_STUDENT]: () => null,
     [DELETE_TRANSACTION]: {
       updateData: (state, action) => {
-        const newData = cloneDeep(state.data);
+        const newData = cloneDeep(state.data[1]);
         if (newData) {
           newData.data = newData.data.filter(
             transaction => transaction.id !== action.meta.transactionId,
           );
         }
-        return newData;
+        state.data[1] = newData;
+        return state.data;
       },
       getRequestKey: requestAction => String(requestAction.meta.transactionId), // you need to use string if id is an integer
     },

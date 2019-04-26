@@ -106,7 +106,7 @@ export class CheckoutPage extends React.Component {
           <title>Encaissement</title>
         </Helmet>
 
-        <Grid stackble>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column floated="left" computer={8}>
               <Header as="h2">Encaissement</Header>
