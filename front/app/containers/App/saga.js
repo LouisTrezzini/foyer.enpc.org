@@ -26,13 +26,17 @@ function* onRequestSaga(request) {
 
   if (Array.isArray(request)) {
     return request.map(req => attachAuthToken(req, token));
-  } else {
-    return attachAuthToken(request, token);
   }
+
+  return attachAuthToken(request, token);
 }
 
 function* onErrorSaga(error) {
-  if (!error.response || error.response.status === 404 || error.response.status === 500) {
+  if (
+    !error.response ||
+    error.response.status === 404 ||
+    error.response.status === 500
+  ) {
     yield put(push('/error'));
     return { error };
   }

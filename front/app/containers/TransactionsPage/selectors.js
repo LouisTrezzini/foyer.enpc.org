@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
  * Direct selector to the transactionsPage state domain
  */
 
-const selectTransactionsPageDomain = state => state.get('transactionsPage');
+const selectTransactionsPageDomain = state => state.transactionsPage;
 
 /**
  * Other specific selectors

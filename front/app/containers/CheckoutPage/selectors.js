@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
  * Direct selector to the checkoutPage state domain
  */
 
-const selectCheckoutPageDomain = state => state.get('checkoutPage');
+const selectCheckoutPageDomain = state => state.checkoutPage;
 
 /**
  * Other specific selectors

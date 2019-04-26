@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
  * Direct selector to the studentPage state domain
  */
 
-const selectStudentPageDomain = state => state.get('studentPage');
+const selectStudentPageDomain = state => state.studentPage;
 
 /**
  * Other specific selectors

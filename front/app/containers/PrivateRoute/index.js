@@ -13,25 +13,21 @@ import { Redirect, Route } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-/* eslint-disable react/prefer-stateless-function */
-export class PrivateRoute extends React.Component {
-  render() {
-    const { isAuthenticated, children, ...rest } = this.props;
-    return (
-      <Route {...rest}>
-        {isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: rest.location },
-            }}
-          />
-        )}
-      </Route>
-    );
-  }
+export function PrivateRoute({ isAuthenticated, children, ...rest }) {
+  return (
+    <Route {...rest}>
+      {isAuthenticated ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: rest.location },
+          }}
+        />
+      )}
+    </Route>
+  );
 }
 
 PrivateRoute.propTypes = {

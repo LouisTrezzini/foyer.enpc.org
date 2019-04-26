@@ -1,6 +1,6 @@
 /*
  *
- * PrivateRoute actions
+ * App actions
  *
  */
 

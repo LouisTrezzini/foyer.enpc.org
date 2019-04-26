@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
  * Direct selector to the drinksPage state domain
  */
 
-const selectDrinksPageDomain = state => state.get('drinksPage');
+const selectDrinksPageDomain = state => state.drinksPage;
 
 /**
  * Other specific selectors

@@ -4,21 +4,25 @@
  *
  */
 
+{{#if memo}}
+import React, { memo } from 'react';
+{{else}}
 import React from 'react';
+{{/if}}
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
-/* eslint-disable react/prefer-stateless-function */
-class {{ properCase name }} extends {{{ type }}} {
-  render() {
-    return (
-      <div>
-        This is the {{ properCase name }} component!
-      </div>
-    );
-  }
+function {{ properCase name }}() {
+  return (
+    <div>
+    </div>
+  );
 }
 
 {{ properCase name }}.propTypes = {};
 
+{{#if memo}}
+export default memo({{ properCase name }});
+{{else}}
 export default {{ properCase name }};
+{{/if}}

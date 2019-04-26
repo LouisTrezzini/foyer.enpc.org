@@ -44,7 +44,7 @@ const getIn = (state, name, id) => {
 };
 
 const getThunkState = (state = {}) => {
-  return state.get('thunk', {});
+  return state.thunk || {};
 };
 
 export const getPendingState = state =>

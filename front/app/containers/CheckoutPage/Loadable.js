@@ -1,9 +1,7 @@
 /**
- *
  * Asynchronously loads the component for CheckoutPage
- *
  */
 
-import loadable from 'loadable-components';
+import loadable from 'utils/loadable';
 
 export default loadable(() => import('./index'));

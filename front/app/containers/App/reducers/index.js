@@ -4,15 +4,10 @@
  *
  */
 
-import { fromJS } from 'immutable';
+import { produce } from 'immer';
 
-export const initialState = fromJS({});
+export const initialState = {};
 
-function appReducer(state = initialState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+const appReducer = (state = initialState) => produce(state, () => {});
 
 export default appReducer;

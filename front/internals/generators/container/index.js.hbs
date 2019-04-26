@@ -1,10 +1,14 @@
-/*
+/**
  *
  * {{properCase name }}
  *
  */
 
+{{#if memo}}
+import React, { memo } from 'react';
+{{else}}
 import React from 'react';
+{{/if}}
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 {{#if wantHeaders}}
@@ -12,28 +16,39 @@ import { Helmet } from 'react-helmet';
 {{/if}}
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
+{{/if}}
+import { compose } from 'redux';
+
+{{#if wantSaga}}
+import { useInjectSaga } from 'utils/injectSaga';
+{{/if}}
+{{#if wantActionsAndReducer}}
+import { useInjectReducer } from 'utils/injectReducer';
 import makeSelect{{properCase name}} from './selectors';
+import reducer from './reducer';
+{{/if}}
+{{#if wantSaga}}
+import saga from './saga';
 {{/if}}
 
+export function {{ properCase name }}() {
+  {{#if wantActionsAndReducer}}
+  useInjectReducer({ key: '{{ camelCase name }}', reducer });
+  {{/if}}
+  {{#if wantSaga}}
+  useInjectSaga({ key: '{{ camelCase name }}', saga });
+  {{/if}}
 
-/* eslint-disable react/prefer-stateless-function */
-export class {{ properCase name }} extends React.{{{ component }}} {
-  render() {
-    return (
-      <div>
-      {{#if wantHeaders}}
-        <Helmet>
-          <title>{{properCase name}}</title>
-          <meta
-            name="description"
-            content="Description of {{properCase name}}"
-          />
-        </Helmet>
-      {{/if}}
-        This is the {{ properCase name }} component!
-      </div>
-    );
-  }
+  return (
+    <div>
+    {{#if wantHeaders}}
+      <Helmet>
+        <title>{{properCase name}}</title>
+        <meta name="description" content="Description of {{properCase name}}" />
+      </Helmet>
+    {{/if}}
+    </div>
+  );
 }
 
 {{ properCase name }}.propTypes = {
@@ -42,7 +57,7 @@ export class {{ properCase name }} extends React.{{{ component }}} {
 
 {{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
-  {{camelCase name}}: makeSelect{{properCase name}}(),
+  {{ camelCase name }}: makeSelect{{properCase name}}(),
 });
 {{/if}}
 
@@ -53,7 +68,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 {{#if wantActionsAndReducer}}
-export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 {{else}}
-export default connect(null, mapDispatchToProps)({{ properCase name }});
+const withConnect = connect(null, mapDispatchToProps);
 {{/if}}
+
+export default compose(
+  withConnect,
+{{#if memo}}
+  memo,
+{{/if}}
+)({{ properCase name }});

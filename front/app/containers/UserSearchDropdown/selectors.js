@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
  * Direct selector to the userSearchDropdown state domain
  */
 
-const selectUserSearchDropdownDomain = state => state.get('userSearchDropdown');
+const selectUserSearchDropdownDomain = state => state.userSearchDropdown;
 
 /**
  * Other specific selectors

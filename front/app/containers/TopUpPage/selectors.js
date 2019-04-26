@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
  * Direct selector to the topUpPage state domain
  */
 
-const selectTopUpPageDomain = state => state.get('topUpPage');
+const selectTopUpPageDomain = state => state.topUpPage;
 
 /**
  * Other specific selectors

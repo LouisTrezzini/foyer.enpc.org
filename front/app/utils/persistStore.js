@@ -19,7 +19,7 @@ export function loadState(initialState = {}) {
 export function saveState(state) {
   try {
     const serializedState = JSON.stringify({
-      auth: state.get('auth'),
+      auth: state.auth,
     });
     localStorage.setItem(STORAGE_KEY, serializedState);
   } catch (e) {
