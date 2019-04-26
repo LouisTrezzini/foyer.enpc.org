@@ -11,7 +11,6 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import {
   Button,
   Container,
@@ -20,9 +19,6 @@ import {
   Image,
   Menu,
 } from 'semantic-ui-react';
-import injectReducer from 'utils/injectReducer';
-import reducer from './reducer';
-import makeSelectAppLayout from './selectors';
 
 function AppLayout(props) {
   const { logout } = props;
@@ -93,10 +89,6 @@ AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  appLayout: makeSelectAppLayout(),
-});
-
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(logoutAction()),
@@ -104,13 +96,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 const withConnect = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'appLayout', reducer });
-
-export default compose(
-  withReducer,
-  withConnect,
-)(AppLayout);
+export default compose(withConnect)(AppLayout);
